@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -16,11 +16,17 @@
 </head>
 <body>
     <div class="ui container">
-        <div class="">
-            <input class="form">
-            <input class="form">
-            <button class="ui button">Sign Up</button>
-            <button class="ui button">Log In</button>
+        <div class="ui raised very padded text container segment">
+            <div class="ui input focus row fluid">
+                <input type="text" placeholder="Email...">
+            </div>
+            <div class="ui input focus row fluid">
+                <input type="text" placeholder="Password...">
+            </div>
+            <div class="row fluid">
+                <button class="ui basic red button">Sign Up</button>
+                <button class="ui basic blue button">Log In</button>
+            </div>
         </div>
     </div>
 </body>
