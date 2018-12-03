@@ -17,6 +17,8 @@
     "run-all": "^1.0.1",
     "watchify": "^3.11.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "semantic-ui": "^2.4.2"
+  },
   "description": ""
 }
