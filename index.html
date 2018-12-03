@@ -3,30 +3,49 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>List-In Login Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
     <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
-    <script src="semantic/dist/semantic.min.js"></script>
-    <script src="main.js"></script>
+    <script defer src="semantic/dist/semantic.min.js"></script>
+    <script defer src="main.js"></script>
 </head>
-<body>
-    <div class="ui container">
-        <div class="ui raised very padded text container segment">
-            <div class="ui input focus row fluid">
-                <input type="text" placeholder="Email...">
-            </div>
-            <div class="ui input focus row fluid">
-                <input type="text" placeholder="Password...">
-            </div>
-            <div class="row fluid">
-                <button class="ui basic red button">Sign Up</button>
-                <button class="ui basic blue button">Log In</button>
-            </div>
+<body cz-shortcut-listen="true">
+    <div class="ui grid">
+        <div class="row large centeredVertical"></div>
+        <div class="four wide column"></div>
+        <div class="eight wide column center aligned">
+            <h2 class="ui blue image header">
+                <img src="./list-512.png" class="image">
+                <div class="content">
+                    Log In To Your List-In Account
+                </div>
+            </h2>
+            <form class="ui large form">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon">
+                            </i>
+                            <input type="text" name="email" placeholder="Email..." required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon">
+                            </i>
+                            <input type="password" name="password" placeholder="Password..." pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})" required>
+                        </div>
+                    </div>
+                    <div class="ui large basic submit button blue">Sign Up</div>
+                    <div class="ui large basic submit button blue">Log In</div>
+                </div>
+                <div class="ui error message"></div>
+            </form>
         </div>
     </div>
 </body>
