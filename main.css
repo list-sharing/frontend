@@ -1,3 +1,6 @@
+/******************************************************************************
+**  index
+******************************************************************************/
 .centeredVertical {
     min-height: 15em;
 }
@@ -20,4 +23,43 @@
 
 .coloredFive {
     color: #000000;
+}
+
+/******************************************************************************
+**  profile
+******************************************************************************/
+nav{
+    background-color: #71BBD0;
+    display:flex !important;
+    justify-content: space-between;
+    height:100px;
+}
+
+nav h4{
+    line-height:100px;
+    margin:0;
+    color:white;
+}
+
+.signoutDiv i{
+    line-height:100px;
+    display:inline-block;
+    color: #ffffff90;
+}
+
+nav p{
+    line-height:100px;
+    display:inline-block;
+    padding: 0 20px;
+    color:white;
+}
+
+nav p:hover{
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+nav .search{
+    height:40px;
+    margin:30px 0 0 10px;
 }
