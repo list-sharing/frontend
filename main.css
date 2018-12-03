@@ -63,3 +63,13 @@ nav .search{
     height:40px;
     margin:30px 0 0 10px;
 }
+
+/******************************************************************************
+**  list page
+******************************************************************************/
+
+.mixMaxedImage {
+    width: 100% !important;
+    height: 450em !important;
+    background-image: url(./ListNamePhoto.png);
+}
