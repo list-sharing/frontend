@@ -22,7 +22,7 @@ function tryLogin(){
         window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
     })
     .catch(err => {
-        console.error(err)
+        console.error(err.response.data)
         document.querySelector('body').innerHTML = `<b style="color:red">Incorrect credentials</b> ${document.querySelector('body').innerHTML}`
     })
 }

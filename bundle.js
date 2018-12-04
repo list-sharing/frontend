@@ -1654,7 +1654,7 @@ function tryLogin(){
         window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
     })
     .catch(err => {
-        console.error(err)
+        console.error(err.response.data)
         document.querySelector('body').innerHTML = `<b style="color:red">Incorrect credentials</b> ${document.querySelector('body').innerHTML}`
     })
 }
@@ -1685,13 +1685,21 @@ const {axios, addListenersToMany} = require('./utils')
 // $('.ui.search').search({source: content});
 
 function init(){
-    let id = localStorage.getItem('uId')
-    console.log('hello')
+    axios('/auth/token')
+    .then(result => {
+        const id = result.data.id
+        return axios(`/users/${id}`)
+    })
+    .then((result) => {
+        document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
+        return getUser(2)
+    })
+}
+
+function getUser(id){
     axios(`/users/${id}`)
     .then(result => {
         console.log(result)
-        const name = result.data.email
-        document.querySelector('.welcome').textContent += ` ${name}`
     })
 }
 module.exports = {init}
