@@ -25,6 +25,39 @@
     color: #000000;
 }
 
+.hidden{
+    visibility:hidden;
+}
+
+#first_name, #last_name{
+    margin-bottom:15px;
+    width: calc(50% - 7.5px);
+}
+
+#last_name{
+    float:right;
+}
+
+.field:nth-of-type(1){
+    width:100%;
+}
+.alert{
+    border-radius:10px;
+    border:2px solid salmon;
+    color:salmon;
+    position:absolute;
+    top:0;
+    width:100%;
+    padding:10px;
+    opacity:0;
+    animation: fadeIn 5s linear;
+}
+
+@keyframes fadeIn{
+    0%{opacity:0;}
+    10%{opacity:0.9;}
+    100%{opacity:1;}
+}
 /******************************************************************************
 **  profile
 ******************************************************************************/

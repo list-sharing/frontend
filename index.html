@@ -48,6 +48,55 @@
             </form>
         </div>
     </div>
-    <a href="profilePage/profile.html">profile</a>
+
+
+
+
+
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="image content">
+            <div class="description">
+                <div class="ui header">Sign up</div>
+                <form id="signup" class="ui large form">
+                    <div class="ui stacked segment">
+                        <div class="fields">
+                            <div class="field">
+                                <input id="first_name" type="text" required maxlength="150" placeholder="First name">
+                                <input id="last_name" type="text" required maxlength="150" placeholder="Last name">
+                            </div>
+                        </div>
+    
+    
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="envelope icon"></i>
+                                <input id="email" type="email" name="email" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input id="password" type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+    
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="check icon"></i>
+                                <input id="retypePassword" type="password" name="retypePassword" placeholder="Retype password">
+                            </div>
+                            <p class="passwordWarning hidden">passwords do not match</p>
+                        </div>
+    
+                    </div>
+    
+                    <div class="ui error message"></div>
+                    <button id="submit" type="submit" class="ui fluid large teal submit button disabled">sign up</button>
+                </form>
+    
+            </div>
+        </div>
+    </div>
 </body>
 </html>

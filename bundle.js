@@ -1631,11 +1631,12 @@ process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
 const {axios} = require('./utils')
+const signup = require('./signup')
 
 function init(){
     document.querySelectorAll('.submit.button')[1].classList.add('disabled')
     document.addEventListener('keyup', checkVal)
-    document.querySelectorAll('.submit.button')[0].onclick = function(){ window.location.pathname = '/signup.html'}
+    document.querySelectorAll('.submit.button')[0].onclick = signup.init
 }
 
 function checkVal(){
@@ -1666,8 +1667,10 @@ function getBody(){
     
     return body
 }
+
+
 module.exports = {init}
-},{"./utils":31}],29:[function(require,module,exports){
+},{"./signup":31,"./utils":32}],29:[function(require,module,exports){
 const profile = require('./profile')
 const login = require('./login')
 const path = window.location.pathname
@@ -1703,7 +1706,67 @@ function getUser(id){
     })
 }
 module.exports = {init}
-},{"./utils":31}],31:[function(require,module,exports){
+},{"./utils":32}],31:[function(require,module,exports){
+const {axios} = require('./utils')
+const login = require('./login')
+
+function init(){
+    $('.ui.modal').modal('show')
+    document.addEventListener('keyup', activateBtn)
+}
+
+function activateBtn() {
+    checkPasswords()
+    let result = checkInputs()
+    if (!result) return false
+    document.querySelector('#submit').classList.remove('disabled')
+    document.querySelector('#submit').addEventListener('click', function (e) { submit(e, result) })
+}
+
+function checkInputs() {
+    const inputs = document.querySelectorAll('.modal input')
+    result = {}
+    for (let input of inputs) {
+        if (!input.value) return false
+        result[input.id] = input.value
+    }
+    if (result.retypePassword !== result.password) return false
+    delete result.retypePassword
+    return result
+}
+
+function checkPasswords() {
+    const retypePassword = document.querySelector('#retypePassword')
+    retypePassword.addEventListener('keyup', isEqual)
+}
+
+function isEqual() {
+    const retypePassword = document.querySelector('#retypePassword').value
+    const password = document.querySelector('#password').value
+    if (retypePassword !== password) document.querySelector('.passwordWarning').classList.remove('hidden')
+    else document.querySelector('.passwordWarning').classList.add('hidden')
+}
+
+function submit(e, body){
+    e.preventDefault()
+    axios('/users/signup', 'post', body)
+    .then(result => {
+        $('.ui.modal').modal('hide')
+        document.querySelector('body').innerHTML += `
+            <div class="ui alert">${result.data.message}. Please log in</div> 
+        `
+        login.init()
+        document.querySelector('.button').classList.add('disabled')
+    })
+    .catch(err => {
+        document.querySelector('body').innerHTML += `
+            <div class="ui alert">${err.response.data.message}.</div> 
+        `
+    })
+}
+
+module.exports = {init}
+},{"./login":28,"./utils":32}],32:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){

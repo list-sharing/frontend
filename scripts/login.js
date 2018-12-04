@@ -1,9 +1,10 @@
 const {axios} = require('./utils')
+const signup = require('./signup')
 
 function init(){
     document.querySelectorAll('.submit.button')[1].classList.add('disabled')
     document.addEventListener('keyup', checkVal)
-    document.querySelectorAll('.submit.button')[0].onclick = function(){ window.location.pathname = '/signup.html'}
+    document.querySelectorAll('.submit.button')[0].onclick = signup.init
 }
 
 function checkVal(){
@@ -34,4 +35,6 @@ function getBody(){
     
     return body
 }
+
+
 module.exports = {init}
