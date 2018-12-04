@@ -12,7 +12,7 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
     <script defer src="../semantic/dist/semantic.min.js"></script>
-    <script defer src="../main.js"></script>
+    <script defer src="../scripts/main.js"></script>
 </head>
 <nav>
     <div class="ui search">
@@ -29,10 +29,13 @@
     </div>
 </nav>
 <body cz-shortcut-listen="true">
-    <div class="ui container fluid">
-        <div class="row minMaxedImage"> <!--This is the placeholder for the list name card.-->
-            <div class="ui large centeredImageText"><h5>List Name</h5></div>
+    <div class="container fluid">
+        <div class="container"> <!--This is the placeholder for the list name card.-->
+            <div class="centeredImageText"><h5>List Name</h5></div>
         </div>
+    </div>
+    <div class="container">
+        <button class="ui basic large blue button" id="newListButton">Click me to add a list! My ID is "newListButton".</button>
     </div>
 </body>
 </html>

@@ -68,8 +68,8 @@ nav .search{
 **  list page
 ******************************************************************************/
 
-.mixMaxedImage {
-    width: 100% !important;
-    height: 450em !important;
-    background-image: url(./ListNamePhoto.png);
+.minMaxedImage {
+    width: 100%;
+    height: 450em;
+    background-image: url('./listPage/ListNamePhoto.png');
 }
