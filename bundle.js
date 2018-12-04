@@ -1697,6 +1697,12 @@ function init(){
         document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
         return getUser(3)
     })
+    .then( () => {
+        $('.ui.accordion')
+            .accordion()
+            ;
+    })
+
 }
 
 function getUser(id){
@@ -1704,6 +1710,10 @@ function getUser(id){
     .then(result => {
         console.log(result)
         createHeader(result.data[0])
+        return axios(`/users/${id}/lists`)
+    })
+    .then(result => {
+        console.log(result)
     })
 }
 
