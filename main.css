@@ -70,6 +70,16 @@ nav .search{
 
 .minMaxedImage {
     width: 100%;
-    height: 450em;
+    height: 50em;
     background-image: url('./listPage/ListNamePhoto.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.listImage1 {
+    width: 5em;
+    height: 5em;
+    background-image: url('./listPage/ListOne.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
