@@ -66,6 +66,10 @@ nav{
     display:flex !important;
     justify-content: space-between;
     height:100px;
+    box-shadow:0 0 0 3px #00000050;
+    position:fixed; 
+    width:100%;
+    top:0;
 }
 
 nav h4{
@@ -97,6 +101,43 @@ nav .search{
     margin:30px 0 0 10px;
 }
 
+#profile header{
+    background-image: url('https://www.transparenttextures.com/patterns/arches.png');
+    background-color: #ABD5E1;
+    min-height:200px;
+    margin-top:100px;
+    display:flex;
+    justify-content: space-around;
+    padding:0 50px;
+}
+
+.profPic{
+    height:100px;
+    width:100px;
+    /* margin:50px; */
+    background-size:100%;
+    border-radius:50%;
+    margin-top:50px;
+}
+
+.name{
+    display:inline-block;
+    color:white;
+    font-size:48px;
+    line-height:200px;
+    margin-top:0;
+    padding-top:0;
+}
+
+.profContent{
+    font-size:18px;
+    margin:10px auto;
+    outline:1px solid black;
+    display:inline-block;
+    max-width:1024px;
+    padding:10px;
+    /* width:90%; */
+}
 /******************************************************************************
 **  list page
 ******************************************************************************/
