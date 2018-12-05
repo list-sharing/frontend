@@ -1703,11 +1703,24 @@ function activateBtn(){
 
 function submit(e){
     e.preventDefault()
+    const id = document.querySelector('body').getAttribute('data-id')
     const listBody = accumulateListVals()
-    
-    const itemBody = accumulateItemVals()
-    
-    console.log(listBody, itemBody)
+    return axios(`/users/${id}/lists`, 'post', listBody)
+    .then(result => {
+        return result.data.id
+    })
+    .then(lId => {
+        const itemBody = accumulateItemVals(lId)
+        const promiseArray = []
+        for(let item of itemBody){
+            promiseArray.push(axios(`/users/${id}/lists/${lId}/items`, 'post', item))
+        }
+        Promise.all(promiseArray)
+        .then(results =>{
+            window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
+        })
+    })
+    .catch(err => console.error(err.response.data))
 }
 
 function accumulateListVals(){
@@ -1718,15 +1731,22 @@ function accumulateListVals(){
     return body
 }
 
-function accumulateItemVals(){
+function accumulateItemVals(lId){
     const body = []
-    let entry = []
+    let entry = {
+        source_url: undefined, 
+        synopsis: undefined,
+        list_id: lId
+    }
+
     const inputs = document.querySelectorAll('.itemData')
     for(let input of inputs){
-        entry.push(input.value)
-        if(entry.length === 2){
+        if(input.getAttribute('type') === 'url') entry.source_url = input.value
+        else entry.synopsis = input.value
+        
+        if(!!entry.source_url && !!entry.synopsis){
             body.push(entry)
-            entry = []
+            entry = {list_id: lId} 
         }
     }
     return body
@@ -1901,7 +1921,6 @@ const {cardTemplate} = require('./templates')
 
 function init(){
     nav.init()
-        // return getUser(3)
     return getUser(3)
     .then( () => {
         $('.ui.accordion')
@@ -1914,12 +1933,10 @@ function init(){
 function getUser(id){
     return axios(`/users/${id}`)
     .then(result => {
-        console.log(result)
         createHeader(result.data[0])
         return axios(`/users/${id}/lists`)
     })
     .then(result => {
-        console.log(result)
         const listHTML = []
         result.data.forEach(list => listHTML.push(cardTemplate(list)))
         document.querySelector('.cardHolder').innerHTML = listHTML.join('')
