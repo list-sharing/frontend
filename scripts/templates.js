@@ -32,4 +32,21 @@ function cardTemplate(list){
     </div>`
 }
 
-module.exports = {cardTemplate}
+function listItemTemplate(item){
+    return `
+    <a href="${item.source_url}" target="_blank">
+    <div class="ui fluid card" data-id="${item.id}">
+
+        <div class="image">
+            <iframe src="${item.source_url}" scrolling="no"></iframe>
+        </div>
+        
+        <div class="content">
+            <div class="description">${item.synopsis}</div>
+        </div>
+
+    </div>
+    </a>`
+    }
+    
+module.exports = {cardTemplate, listItemTemplate}

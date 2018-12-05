@@ -1754,7 +1754,36 @@ function accumulateItemVals(lId){
 
 
 module.exports = {init}
-},{"./utils":36}],29:[function(require,module,exports){
+},{"./utils":37}],29:[function(require,module,exports){
+const {axios} = require('./utils')
+const {listItemTemplate} = require('./templates')
+
+function init(){
+    const userId = document.querySelector('body').getAttribute('data-id')
+    const listId = localStorage.getItem('lId')
+    return axios(`/users/${userId}/lists/${listId}`)
+    .then(result => {
+        console.log(result)
+        addListInfo(result.data[0])
+        return axios(`/users/${userId}/lists/${listId}/items`)
+    })
+    .then(result => {
+        console.log(result)
+        const cardHTML = []
+        result.data.forEach(item => cardHTML.push(listItemTemplate(item)))
+        document.querySelector('.cardHolder').innerHTML = cardHTML.join('')
+    })
+    .catch(err => console.log(err))
+}
+
+function addListInfo(list){
+    document.querySelector('#listPage header').style.backgroundImage = `url("${list.img}")`
+    document.querySelector('#listPage .name').textContent = list.list_name
+    document.querySelector('#listPage .profContent').textContent = list.desc
+}
+
+module.exports = {init}
+},{"./templates":36,"./utils":37}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1805,8 +1834,7 @@ const getCardList = (userId) => {
 }
 
 module.exports = {init}
-  
-},{"./utils":36}],30:[function(require,module,exports){
+},{"./utils":37}],31:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
@@ -1847,14 +1875,13 @@ function getBody(){
 
 
 module.exports = {init}
-
-},{"./signup":34,"./utils":36}],31:[function(require,module,exports){
-
+},{"./signup":35,"./utils":37}],32:[function(require,module,exports){
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
 const listOperations = require('./listOperations')
 const nav = require('./nav')
+const listPage =  require('./listPage')
 const path = window.location.pathname
 
 
@@ -1863,12 +1890,13 @@ const pageInit = {
     'index.html': login.init,
     '/profilePage/profile.html': profile.init,
     '/signedInLandingPage/signedInLandingPage.html': landingPage.init,
-    '/listOperations/listOperations.html': listOperations.init
+    '/listOperations/listOperations.html': listOperations.init,
+    '/listPage/listPage.html': listPage.init
 }
 
 nav.init()
 pageInit[path]()
-},{"./listOperations":28,"./loadLanding":29,"./login":30,"./nav":32,"./profile":33}],32:[function(require,module,exports){
+},{"./listOperations":28,"./listPage":29,"./loadLanding":30,"./login":31,"./nav":33,"./profile":34}],33:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1897,7 +1925,7 @@ function signout(){
 
 
 module.exports = {init}
-},{"./utils":36}],33:[function(require,module,exports){
+},{"./utils":37}],34:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
 const {cardTemplate} = require('./templates')
@@ -1942,7 +1970,7 @@ function getListItems(e){
     return axios(`/users/_/lists/${id}/items`)
 }
 module.exports = {init}
-},{"./nav":32,"./templates":35,"./utils":36}],34:[function(require,module,exports){
+},{"./nav":33,"./templates":36,"./utils":37}],35:[function(require,module,exports){
 const {axios} = require('./utils')
 const login = require('./login')
 
@@ -1988,6 +2016,7 @@ function submit(e, body){
     axios('/users/signup', 'post', body)
     .then(result => {
         $('.ui.modal').modal('hide')
+        document.querySelector('.modals').remove()
         document.querySelector('body').innerHTML += `
             <div class="ui alert">${result.data.message}. Please log in</div> 
         `
@@ -2002,8 +2031,7 @@ function submit(e, body){
 }
 
 module.exports = {init}
-
-},{"./login":30,"./utils":36}],35:[function(require,module,exports){
+},{"./login":31,"./utils":37}],36:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
     'https://amp.businessinsider.com/images/4f6b6457ecad042a6a000004-320-240.jpg',
@@ -2038,8 +2066,25 @@ function cardTemplate(list){
     </div>`
 }
 
-module.exports = {cardTemplate}
-},{}],36:[function(require,module,exports){
+function listItemTemplate(item){
+    return `
+    <a href="${item.source_url}" target="_blank">
+    <div class="ui fluid card" data-id="${item.id}">
+
+        <div class="image">
+            <iframe src="${item.source_url}" scrolling="no"></iframe>
+        </div>
+        
+        <div class="content">
+            <div class="description">${item.synopsis}</div>
+        </div>
+
+    </div>
+    </a>`
+    }
+    
+module.exports = {cardTemplate, listItemTemplate}
+},{}],37:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){
@@ -2069,4 +2114,4 @@ function addManyListenersToOne(ele, triggerArr, fn){
 }
 
 module.exports = {axios, addListenersToMany, addManyListenersToOne}
-},{"axios":1}]},{},[31]);
+},{"axios":1}]},{},[32]);
