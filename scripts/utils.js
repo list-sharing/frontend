@@ -20,4 +20,10 @@ function addListenersToMany(ele, trigger, fn){
     }
 }
 
-module.exports = {axios, addListenersToMany}
+function addManyListenersToOne(ele, triggerArr, fn){
+    for(let trigger of triggerArr){
+        document.querySelector(ele).addEventListener(trigger, fn)
+    }
+}
+
+module.exports = {axios, addListenersToMany, addManyListenersToOne}

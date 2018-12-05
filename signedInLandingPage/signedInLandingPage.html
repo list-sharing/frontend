@@ -12,7 +12,7 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
     <script defer src="../semantic/dist/semantic.min.js"></script>
-    <script defer src="../scripts/main.js"></script>
+    <script defer src="../bundle.js"></script>
 </head>
 <nav>
     <div class="ui search">
@@ -30,7 +30,7 @@
 </nav>
 <body cz-shortcut-listen="true">
     <div class="ui grid" style="padding-top: 100px;">
-        <div class="ten wide column">
+        <div class="ten wide column" id="cardColumnContainer">
             <div class="ui card" id="listCard0">
                 <div class="header">Featured List Name</div>
                 <div class="image">

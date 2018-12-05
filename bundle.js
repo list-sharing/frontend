@@ -1630,45 +1630,152 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-const {axios, addListenersToMany} = require('./utils')
-const cardTemplate = require('./templates')
+const {axios, addManyListenersToOne} = require('./utils')
+
+function init(){
+    document.addEventListener('keyup', checkInputs)
+    document.addEventListener('keyup', activateBtn)
+    addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
+    
+}
+
+function checkInputs(){
+    const inputs = document.querySelectorAll('input[name="listItem"]')
+    for(let input of inputs){
+        if(input.value === '') return false
+    }
+    document.querySelector('#new').classList.remove('disabled')
+    document.querySelector('#new').onclick = addNewField
+}
+
+function checkImg(){
+    const img = document.querySelector('#img')
+    if(img.value !== '')
+    document.querySelector('#listOps header').style.backgroundImage = `url("${img.value}")`
+}
+
+function addNewField(e){
+    let vals = persistVals()
+    document.querySelector('#new').remove()
+    document.querySelector('.ui.stacked').innerHTML += `
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="circle plus icon"></i>
+                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
+                    </div>
+
+                    <div class="ui left icon input">
+                        <i class="pencil icon"></i>
+                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
+                    </div>
+                </div>
+                <button id="new" type="button" class="ui teal submit button disabled">+</button>`
+    return reAddVals(vals)
+}
+
+function persistVals(){
+    const inputs = document.querySelectorAll('.listInput')
+    let vals = []
+    for(let input of inputs){
+        vals.push(input.value)
+    }
+    return vals
+}
+
+function reAddVals(vals){
+    const inputs = document.querySelectorAll('.listInput')
+    for(let i = 0; i < vals.length; i++){
+        inputs[i].value = vals[i]
+    }
+}
+
+function activateBtn(){
+    const inputs = document.querySelectorAll('input[name="listItem"]')
+    const listName = document.querySelector('#list_name')
+    if(listName.value === '') return false
+    for(let input of inputs){
+        if (input.value !== ''){
+            document.querySelector('#submit').onclick = function(e){submit(e)}
+            return document.querySelector('#submit').classList.remove('disabled')
+        }
+    }
+}
+
+function submit(e){
+    e.preventDefault()
+    const id = document.querySelector('body').getAttribute('data-id')
+    const listBody = accumulateListVals()
+    return axios(`/users/${id}/lists`, 'post', listBody)
+    .then(result => {
+        return result.data.id
+    })
+    .then(lId => {
+        const itemBody = accumulateItemVals(lId)
+        const promiseArray = []
+        for(let item of itemBody){
+            promiseArray.push(axios(`/users/${id}/lists/${lId}/items`, 'post', item))
+        }
+        Promise.all(promiseArray)
+        .then(results =>{
+            window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
+        })
+    })
+    .catch(err => console.error(err.response.data))
+}
+
+function accumulateListVals(){
+    const body = {}
+    body.list_name = document.querySelector('#list_name').value
+    body.img = document.querySelector('#img').value
+    body.desc = document.querySelector('textarea').value
+    return body
+}
+
+function accumulateItemVals(lId){
+    const body = []
+    let entry = {
+        source_url: undefined, 
+        synopsis: undefined,
+        list_id: lId
+    }
+
+    const inputs = document.querySelectorAll('.itemData')
+    for(let input of inputs){
+        if(input.getAttribute('type') === 'url') entry.source_url = input.value
+        else entry.synopsis = input.value
+        
+        if(!!entry.source_url && !!entry.synopsis){
+            body.push(entry)
+            entry = {list_id: lId} 
+        }
+    }
+    return body
+}
+
+
+module.exports = {init}
+},{"./utils":36}],29:[function(require,module,exports){
+const {axios} = require('./utils')
 
 function init(){
     axios('/auth/token')
     .then(result => {
         const id = result.data.id
-        return axios(`/users/${id}`)
-    })
-    .then((result) => {
-        document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
-        return getUser(3)
-    })
-    .then( () => {
-        $('.ui.accordion')
-            .accordion()
-            ;
-    })
-
-}
-
-function getUser(id){
-    axios(`/users/${id}`)
-    .then(result => {
-        console.log(result)
-        createHeader(result.data[0])
-        return axios(`/users/${id}/lists`)
-    })
-    .then(result => {
-        console.log(result)
+        getCardList(id)
     })
 }
 
 const loadCards = cardList => {
+    if(cardList === undefined) {
+        document.getElementById('cardColumnContainer').innerHTML = `
+        <h5>There' nothing here.</h5>`
+        return
+    }
     for(let i = 0; i < cardList.length; i++) {
-        let card = document.getElementById(`#listCard${i}`)
+        let card = document.getElementById(`listCard${i}`)
         card.innerHTML = `
         <div class="image">
-            <img src="${cardList[i].coverPhoto}">
+            <img src="${cardList[i].img}">
             </div>
             <div class="content">
                 <p class="header">${cardList[i].list_name}</p>
@@ -1679,7 +1786,6 @@ const loadCards = cardList => {
             <div class="ui accordion">
                 <div class="title">
                     <i class="dropdown icon"></i>
-                    items
                 </div>
                 <div class="content">
                 </div>
@@ -1693,8 +1799,9 @@ const loadCards = cardList => {
 }
 
 const getCardList = (userId) => {
-    axios.get(`/users/${userId}/lists`)
-    .then()
+    axios(`/users/${userId}/lists`)
+    .then(result => loadCards(result.data))
+    .catch(() => loadCards())
 }
 
 
@@ -1744,15 +1851,20 @@ module.exports = {init}
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
+const listOperations = require('./listOperations')
+const nav = require('./nav')
 const path = window.location.pathname
+
 
 const pageInit = {
     '/': login.init,
     'index.html': login.init,
     '/profilePage/profile.html': profile.init,
-    '/signedInLandingPage/signedInLandingPage.html': landingPage.init
+    '/signedInLandingPage/signedInLandingPage.html': landingPage.init,
+    '/listOperations/listOperations.html': listOperations.init
 }
 
+nav.init()
 pageInit[path]()
 },{"./loadLanding":28,"./login":29,"./profile":32}],31:[function(require,module,exports){
 const {axios} = require('./utils')
@@ -1765,9 +1877,13 @@ function init(){
         })
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
+            document.querySelector('body').setAttribute('data-id', result.data[0].id)
             document.querySelector('.signoutDiv p').addEventListener('click', signout)
         })
-        
+        .catch(err => {
+            console.error(err.response.data)
+            if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
+        })
 }
 
 function signout(){
@@ -1788,7 +1904,6 @@ const {cardTemplate} = require('./templates')
 
 function init(){
     nav.init()
-        // return getUser(3)
     return getUser(3)
     .then( () => {
         $('.ui.accordion')
@@ -1801,12 +1916,10 @@ function init(){
 function getUser(id){
     return axios(`/users/${id}`)
     .then(result => {
-        console.log(result)
         createHeader(result.data[0])
         return axios(`/users/${id}/lists`)
     })
     .then(result => {
-        console.log(result)
         const listHTML = []
         result.data.forEach(list => listHTML.push(cardTemplate(list)))
         document.querySelector('.cardHolder').innerHTML = listHTML.join('')
@@ -1946,5 +2059,11 @@ function addListenersToMany(ele, trigger, fn){
     }
 }
 
-module.exports = {axios, addListenersToMany}
-},{"axios":1}]},{},[30]);
+function addManyListenersToOne(ele, triggerArr, fn){
+    for(let trigger of triggerArr){
+        document.querySelector(ele).addEventListener(trigger, fn)
+    }
+}
+
+module.exports = {axios, addListenersToMany, addManyListenersToOne}
+},{"axios":1}]},{},[31]);
