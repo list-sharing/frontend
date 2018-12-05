@@ -65,4 +65,5 @@ const getCardList = (userId) => {
     .then()
 }
 
+
 module.exports = {init}
