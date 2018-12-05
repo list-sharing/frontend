@@ -1630,6 +1630,111 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
+const {axios, addManyListenersToOne} = require('./utils')
+
+function init(){
+    document.addEventListener('keyup', checkInputs)
+    document.addEventListener('keyup', activateBtn)
+    addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
+    
+}
+
+function checkInputs(){
+    const inputs = document.querySelectorAll('input[name="listItem"]')
+    for(let input of inputs){
+        if(input.value === '') return false
+    }
+    document.querySelector('#new').classList.remove('disabled')
+    document.querySelector('#new').onclick = addNewField
+}
+
+function checkImg(){
+    const img = document.querySelector('#img')
+    if(img.value !== '')
+    document.querySelector('#listOps header').style.backgroundImage = `url("${img.value}")`
+}
+
+function addNewField(e){
+    let vals = persistVals()
+    document.querySelector('#new').remove()
+    document.querySelector('.ui.stacked').innerHTML += `
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="circle plus icon"></i>
+                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
+                    </div>
+
+                    <div class="ui left icon input">
+                        <i class="pencil icon"></i>
+                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
+                    </div>
+                </div>
+                <button id="new" type="button" class="ui teal submit button disabled">+</button>`
+    return reAddVals(vals)
+}
+
+function persistVals(){
+    const inputs = document.querySelectorAll('.listInput')
+    let vals = []
+    for(let input of inputs){
+        vals.push(input.value)
+    }
+    return vals
+}
+
+function reAddVals(vals){
+    const inputs = document.querySelectorAll('.listInput')
+    for(let i = 0; i < vals.length; i++){
+        inputs[i].value = vals[i]
+    }
+}
+
+function activateBtn(){
+    const inputs = document.querySelectorAll('input[name="listItem"]')
+    const listName = document.querySelector('#list_name')
+    if(listName.value === '') return false
+    for(let input of inputs){
+        if (input.value !== ''){
+            document.querySelector('#submit').onclick = function(e){submit(e)}
+            return document.querySelector('#submit').classList.remove('disabled')
+        }
+    }
+}
+
+function submit(e){
+    e.preventDefault()
+    const listBody = accumulateListVals()
+    
+    const itemBody = accumulateItemVals()
+    
+    console.log(listBody, itemBody)
+}
+
+function accumulateListVals(){
+    const body = {}
+    body.list_name = document.querySelector('#list_name').value
+    body.img = document.querySelector('#img').value
+    body.desc = document.querySelector('textarea').value
+    return body
+}
+
+function accumulateItemVals(){
+    const body = []
+    let entry = []
+    const inputs = document.querySelectorAll('.itemData')
+    for(let input of inputs){
+        entry.push(input.value)
+        if(entry.length === 2){
+            body.push(entry)
+            entry = []
+        }
+    }
+    return body
+}
+
+
+module.exports = {init}
+},{"./utils":36}],29:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const cardTemplate = require('./templates')
 
@@ -1698,7 +1803,7 @@ const getCardList = (userId) => {
 }
 
 module.exports = {init}
-},{"./templates":33,"./utils":34}],29:[function(require,module,exports){
+},{"./templates":35,"./utils":36}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
@@ -1739,24 +1844,26 @@ function getBody(){
 
 
 module.exports = {init}
-
-},{"./signup":32,"./utils":34}],29:[function(require,module,exports){
-
+},{"./signup":34,"./utils":36}],31:[function(require,module,exports){
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
+const listOperations = require('./listOperations')
+const nav = require('./nav')
 const path = window.location.pathname
+
 
 const pageInit = {
     '/': login.init,
     'index.html': login.init,
     '/profilePage/profile.html': profile.init,
-    '/signedInLandingPage/signedInLandingPage.html': landingPage.init
+    '/signedInLandingPage/signedInLandingPage.html': landingPage.init,
+    '/listOperations/listOperations.html': listOperations.init
 }
 
+nav.init()
 pageInit[path]()
-
-},{"./login":28,"./profile":31}],30:[function(require,module,exports){
+},{"./listOperations":28,"./loadLanding":29,"./login":30,"./nav":32,"./profile":33}],32:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1767,9 +1874,13 @@ function init(){
         })
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
+            document.querySelector('body').setAttribute('data-id', result.data[0].id)
             document.querySelector('.signoutDiv p').addEventListener('click', signout)
         })
-        
+        .catch(err => {
+            console.error(err.response.data)
+            if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
+        })
 }
 
 function signout(){
@@ -1781,8 +1892,7 @@ function signout(){
 
 
 module.exports = {init}
-},{"./utils":34}],31:[function(require,module,exports){
-
+},{"./utils":36}],33:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
 const {cardTemplate} = require('./templates')
@@ -1830,9 +1940,7 @@ function getListItems(e){
     return axios(`/users/_/lists/${id}/items`)
 }
 module.exports = {init}
-
-},{"./nav":30,"./templates":33,"./utils":34}],32:[function(require,module,exports){
-
+},{"./nav":32,"./templates":35,"./utils":36}],34:[function(require,module,exports){
 const {axios} = require('./utils')
 const login = require('./login')
 
@@ -1892,8 +2000,7 @@ function submit(e, body){
 }
 
 module.exports = {init}
-
-},{"./login":28,"./utils":34}],33:[function(require,module,exports){
+},{"./login":30,"./utils":36}],35:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
     'https://amp.businessinsider.com/images/4f6b6457ecad042a6a000004-320-240.jpg',
@@ -1929,7 +2036,7 @@ function cardTemplate(list){
 }
 
 module.exports = {cardTemplate}
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){
@@ -1952,5 +2059,11 @@ function addListenersToMany(ele, trigger, fn){
     }
 }
 
-module.exports = {axios, addListenersToMany}
-},{"axios":1}]},{},[30]);
+function addManyListenersToOne(ele, triggerArr, fn){
+    for(let trigger of triggerArr){
+        document.querySelector(ele).addEventListener(trigger, fn)
+    }
+}
+
+module.exports = {axios, addListenersToMany, addManyListenersToOne}
+},{"axios":1}]},{},[31]);

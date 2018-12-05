@@ -172,3 +172,38 @@ nav .search{
     background-repeat: no-repeat;
 }
 
+/******************************************************************************
+**  list operations page
+******************************************************************************/
+
+input[type="file"]{
+    position:absolute;
+    right:0;
+    width:85px !important;
+    opacity:0;
+    height:35px;
+}
+
+#listContainer{
+
+    width:70%;
+    margin:200px auto;
+}
+#listOps header{
+    height:400px;
+    position:absolute;
+    width:100%;
+    top:0;
+    background-size:cover;
+}
+
+#listOps .icon:nth-of-type(1) input[name="listItem"]{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#listOps .icon:nth-of-type(2) input[name="listItem"]{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top:none;
+}
