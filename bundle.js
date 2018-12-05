@@ -1805,7 +1805,6 @@ const getCardList = (userId) => {
 }
 
 module.exports = {init}
-  
 },{"./utils":36}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
@@ -1847,9 +1846,7 @@ function getBody(){
 
 
 module.exports = {init}
-
 },{"./signup":34,"./utils":36}],31:[function(require,module,exports){
-
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
@@ -2002,7 +1999,6 @@ function submit(e, body){
 }
 
 module.exports = {init}
-
 },{"./login":30,"./utils":36}],35:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
