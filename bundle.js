@@ -1745,29 +1745,37 @@ function init(){
     })
 }
 
-const loadCards = cardList => {
+const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
         <h5>There' nothing here.</h5>`
         return
     }
-    for(let i = 0; i < cardList.length; i++) {
-        let card = document.getElementById(`listCard${i}`)
+    let incrementTo
+    if(cardList.length > limit) {
+        incrementTo = limit
+    } else {
+        incrementTo = cardList.length
+    }
+    for(let i = 0; i < incrementTo; i++) {
+        let card = document.getElementById(`${i}`)
         card.innerHTML = `
-        <div class="image">
-            <img src="${cardList[i].img}">
-            </div>
-            <div class="content">
-                <p class="header">${cardList[i].list_name}</p>
-                <div class="description">
-                    ${cardList[i].desc}
-                </div>
-            </div>
-            <div class="ui accordion">
-                <div class="title">
-                    <i class="dropdown icon"></i>
+        <div class="ui card">
+            <div class="image">
+                <img src="${cardImage(cardList[i])}">
                 </div>
                 <div class="content">
+                    <p class="header">${cardList[i].list_name}</p>
+                    <div class="description">
+                        ${cardDesc(cardList[i])}
+                    </div>
+                </div>
+                <div class="ui accordion">
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                    </div>
+                    <div class="content">
+                    </div>
                 </div>
             </div>`
         card.addEventListener('click', (e) => {
@@ -1778,9 +1786,25 @@ const loadCards = cardList => {
     }
 }
 
+const sortedCards = cardList => cardList.sort(timeStampCompare)
+
+const timeStampCompare = (a, b) => {
+    const timeStampA = new Date(a.updated_at).getTime
+    const timeStampB = new Date(b.updated_at).getTime
+
+    if(timeStampA > timeStampB) 
+        return 1
+    
+    return -1
+}
+
+const cardImage = obj => obj.img ? `${obj.img}` : '../Placeholder.png'
+
+const cardDesc = obj => obj.desc ? `${obj.desc}` : "There's nothing here."
+
 const getCardList = (userId) => {
     axios(`/users/${userId}/lists`)
-    .then(result => loadCards(result.data))
+    .then(result => loadCards(sortedCards(result.data)))
     .catch(() => loadCards())
 }
 
