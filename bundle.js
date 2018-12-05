@@ -1643,10 +1643,8 @@ function init(){
         document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
         return getUser(3)
     })
-    .then( () => {
-        $('.ui.accordion')
-            .accordion()
-            ;
+    .then( (result) => {
+        getCardList(id)
     })
 
 }
@@ -1668,7 +1666,7 @@ const loadCards = cardList => {
         let card = document.getElementById(`#listCard${i}`)
         card.innerHTML = `
         <div class="image">
-            <img src="${cardList[i].coverPhoto}">
+            <img src="${cardList[i].img}">
             </div>
             <div class="content">
                 <p class="header">${cardList[i].list_name}</p>
@@ -1694,11 +1692,11 @@ const loadCards = cardList => {
 
 const getCardList = (userId) => {
     axios.get(`/users/${userId}/lists`)
-    .then()
+    .then(result => loadCards(result))
 }
 
 module.exports = {init}
-},{"./templates":33,"./utils":34}],29:[function(require,module,exports){
+},{"./templates":34,"./utils":35}],29:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
@@ -1739,9 +1737,7 @@ function getBody(){
 
 
 module.exports = {init}
-
-},{"./signup":32,"./utils":34}],29:[function(require,module,exports){
-
+},{"./signup":33,"./utils":35}],30:[function(require,module,exports){
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
@@ -1755,8 +1751,7 @@ const pageInit = {
 }
 
 pageInit[path]()
-
-},{"./login":28,"./profile":31}],30:[function(require,module,exports){
+},{"./loadLanding":28,"./login":29,"./profile":32}],31:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1781,8 +1776,7 @@ function signout(){
 
 
 module.exports = {init}
-},{"./utils":34}],31:[function(require,module,exports){
-
+},{"./utils":35}],32:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
 const {cardTemplate} = require('./templates')
@@ -1830,9 +1824,7 @@ function getListItems(e){
     return axios(`/users/_/lists/${id}/items`)
 }
 module.exports = {init}
-
-},{"./nav":30,"./templates":33,"./utils":34}],32:[function(require,module,exports){
-
+},{"./nav":31,"./templates":34,"./utils":35}],33:[function(require,module,exports){
 const {axios} = require('./utils')
 const login = require('./login')
 
@@ -1892,8 +1884,7 @@ function submit(e, body){
 }
 
 module.exports = {init}
-
-},{"./login":28,"./utils":34}],33:[function(require,module,exports){
+},{"./login":29,"./utils":35}],34:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
     'https://amp.businessinsider.com/images/4f6b6457ecad042a6a000004-320-240.jpg',
@@ -1929,7 +1920,7 @@ function cardTemplate(list){
 }
 
 module.exports = {cardTemplate}
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){

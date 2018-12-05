@@ -11,10 +11,8 @@ function init(){
         document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
         return getUser(3)
     })
-    .then( () => {
-        $('.ui.accordion')
-            .accordion()
-            ;
+    .then( (result) => {
+        getCardList(id)
     })
 
 }
@@ -36,7 +34,7 @@ const loadCards = cardList => {
         let card = document.getElementById(`#listCard${i}`)
         card.innerHTML = `
         <div class="image">
-            <img src="${cardList[i].coverPhoto}">
+            <img src="${cardList[i].img}">
             </div>
             <div class="content">
                 <p class="header">${cardList[i].list_name}</p>
@@ -62,7 +60,7 @@ const loadCards = cardList => {
 
 const getCardList = (userId) => {
     axios.get(`/users/${userId}/lists`)
-    .then()
+    .then(result => loadCards(result))
 }
 
 module.exports = {init}
