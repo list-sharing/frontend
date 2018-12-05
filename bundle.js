@@ -1703,24 +1703,11 @@ function activateBtn(){
 
 function submit(e){
     e.preventDefault()
-    const id = document.querySelector('body').getAttribute('data-id')
     const listBody = accumulateListVals()
-    return axios(`/users/${id}/lists`, 'post', listBody)
-    .then(result => {
-        return result.data.id
-    })
-    .then(lId => {
-        const itemBody = accumulateItemVals(lId)
-        const promiseArray = []
-        for(let item of itemBody){
-            promiseArray.push(axios(`/users/${id}/lists/${lId}/items`, 'post', item))
-        }
-        Promise.all(promiseArray)
-        .then(results =>{
-            window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
-        })
-    })
-    .catch(err => console.error(err.response.data))
+    
+    const itemBody = accumulateItemVals()
+    
+    console.log(listBody, itemBody)
 }
 
 function accumulateListVals(){
@@ -1731,22 +1718,15 @@ function accumulateListVals(){
     return body
 }
 
-function accumulateItemVals(lId){
+function accumulateItemVals(){
     const body = []
-    let entry = {
-        source_url: undefined, 
-        synopsis: undefined,
-        list_id: lId
-    }
-
+    let entry = []
     const inputs = document.querySelectorAll('.itemData')
     for(let input of inputs){
-        if(input.getAttribute('type') === 'url') entry.source_url = input.value
-        else entry.synopsis = input.value
-        
-        if(!!entry.source_url && !!entry.synopsis){
+        entry.push(input.value)
+        if(entry.length === 2){
             body.push(entry)
-            entry = {list_id: lId} 
+            entry = []
         }
     }
     return body
@@ -1763,6 +1743,9 @@ function init(){
         const id = result.data.id
         getCardList(id)
     })
+
+    axios('/lists')
+    .then(result => loadNewsFeed(result.sort(timeStampCompare)))
 }
 
 const loadCards = (cardList, limit) => {
@@ -1781,8 +1764,7 @@ const loadCards = (cardList, limit) => {
         let card = document.getElementById(`${i}`)
         card.innerHTML = `
         <div class="ui card">
-            <div class="image">
-                <img src="${cardImage(cardList[i])}">
+            <div class="cardImage" style="background-image: url('${cardImage(cardList[i])}')">
                 </div>
                 <div class="content">
                     <p class="header">${cardList[i].list_name}</p>
@@ -1824,13 +1806,16 @@ const cardDesc = obj => obj.desc ? `${obj.desc}` : "There's nothing here."
 
 const getCardList = (userId) => {
     axios(`/users/${userId}/lists`)
-    .then(result => loadCards(sortedCards(result.data)))
+    .then(result => loadCards(sortedCards(result.data), 12))
     .catch(() => loadCards())
 }
 
+const loadNewsFeed = (lists) => {
+    
+}
 
 module.exports = {init}
-},{"./templates":34,"./utils":35}],29:[function(require,module,exports){
+},{"./utils":36}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
@@ -1871,7 +1856,7 @@ function getBody(){
 
 
 module.exports = {init}
-},{"./signup":33,"./utils":35}],30:[function(require,module,exports){
+},{"./signup":34,"./utils":36}],31:[function(require,module,exports){
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
@@ -1890,7 +1875,7 @@ const pageInit = {
 
 nav.init()
 pageInit[path]()
-},{"./loadLanding":28,"./login":29,"./profile":32}],31:[function(require,module,exports){
+},{"./listOperations":28,"./loadLanding":29,"./login":30,"./nav":32,"./profile":33}],32:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1919,7 +1904,7 @@ function signout(){
 
 
 module.exports = {init}
-},{"./utils":35}],32:[function(require,module,exports){
+},{"./utils":36}],33:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
 const {cardTemplate} = require('./templates')
@@ -1964,7 +1949,7 @@ function getListItems(e){
     return axios(`/users/_/lists/${id}/items`)
 }
 module.exports = {init}
-},{"./nav":31,"./templates":34,"./utils":35}],33:[function(require,module,exports){
+},{"./nav":32,"./templates":35,"./utils":36}],34:[function(require,module,exports){
 const {axios} = require('./utils')
 const login = require('./login')
 
@@ -2024,7 +2009,7 @@ function submit(e, body){
 }
 
 module.exports = {init}
-},{"./login":29,"./utils":35}],34:[function(require,module,exports){
+},{"./login":30,"./utils":36}],35:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
     'https://amp.businessinsider.com/images/4f6b6457ecad042a6a000004-320-240.jpg',
@@ -2060,7 +2045,7 @@ function cardTemplate(list){
 }
 
 module.exports = {cardTemplate}
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){

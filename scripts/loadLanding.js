@@ -6,6 +6,9 @@ function init(){
         const id = result.data.id
         getCardList(id)
     })
+
+    axios('/lists')
+    .then(result => loadNewsFeed(result.sort(timeStampCompare)))
 }
 
 const loadCards = (cardList, limit) => {
@@ -24,8 +27,7 @@ const loadCards = (cardList, limit) => {
         let card = document.getElementById(`${i}`)
         card.innerHTML = `
         <div class="ui card">
-            <div class="image">
-                <img src="${cardImage(cardList[i])}">
+            <div class="cardImage" style="background-image: url('${cardImage(cardList[i])}')">
                 </div>
                 <div class="content">
                     <p class="header">${cardList[i].list_name}</p>
@@ -67,9 +69,12 @@ const cardDesc = obj => obj.desc ? `${obj.desc}` : "There's nothing here."
 
 const getCardList = (userId) => {
     axios(`/users/${userId}/lists`)
-    .then(result => loadCards(sortedCards(result.data)))
+    .then(result => loadCards(sortedCards(result.data), 12))
     .catch(() => loadCards())
 }
 
+const loadNewsFeed = (lists) => {
+    
+}
 
 module.exports = {init}
