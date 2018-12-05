@@ -13,5 +13,6 @@ const pageInit = {
     '/signedInLandingPage/signedInLandingPage.html': landingPage.init,
     '/listOperations/listOperations.html': listOperations.init
 }
+
 nav.init()
 pageInit[path]()

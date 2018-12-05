@@ -41,27 +41,35 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="tasks icon"></i>
-                        <input id="list_name" type="text" name="list_name" placeholder="List name" required>
+                        <input class="listData listInput" id="list_name" type="text" name="list_name" placeholder="List name" required>
                     </div>
                 </div>
+
                 <div class="field">
                     <div class="ui left icon action input">
                         <i class="file image icon"></i>
-                        <input id="img" type="url" name="password" placeholder="Add a cover Photo">
+                        <input class="listData listInput" id="img" type="url" name="password" placeholder="Add a cover Photo">
                         <button class="ui button" type="button" id="imgUrl" name="imgUrl" >upload</button>
                         <input class="ui button" type="file" accept="image/png, image/jpg" id="img" name="img">
                     </div>
                 </div>
+
+                <div class="field">
+                    <div class="ui  action input">
+                        <textarea class="ui listData listInput" id="desc" name="desc">List description</textarea>
+                    </div>
+                </div>
+
     
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="circle plus icon"></i>
-                        <input type="url" name="listItem" placeholder="Add a list item URL">
+                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
                     </div>
 
                     <div class="ui left icon input">
                         <i class="pencil icon"></i>
-                        <input type="text" name="listItem" placeholder="Add a list item synopsis">
+                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
                     </div>
                 </div>
 
@@ -70,7 +78,7 @@
             
 
             <div class="ui error message"></div>
-            <button id="submit" type="submit" class="ui fluid large teal submit button disabled">create</button>
+            <button id="submit" type="button" class="ui fluid large teal submit button disabled">create</button>
         </form>
     
     </div>
