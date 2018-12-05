@@ -10,7 +10,10 @@ function init(){
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
             document.querySelector('.signoutDiv p').addEventListener('click', signout)
         })
-        
+        .catch(err => {
+            console.error(err.response.data)
+            if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
+        })
 }
 
 function signout(){
