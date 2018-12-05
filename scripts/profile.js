@@ -6,7 +6,6 @@ const {cardTemplate} = require('./templates')
 
 function init(){
     nav.init()
-        // return getUser(3)
     return getUser(3)
     .then( () => {
         $('.ui.accordion')
@@ -19,12 +18,10 @@ function init(){
 function getUser(id){
     return axios(`/users/${id}`)
     .then(result => {
-        console.log(result)
         createHeader(result.data[0])
         return axios(`/users/${id}/lists`)
     })
     .then(result => {
-        console.log(result)
         const listHTML = []
         result.data.forEach(list => listHTML.push(cardTemplate(list)))
         document.querySelector('.cardHolder').innerHTML = listHTML.join('')
