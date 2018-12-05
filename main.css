@@ -70,6 +70,7 @@ nav{
     position:fixed; 
     width:100%;
     top:0;
+    z-index:9999;
 }
 
 nav h4{
@@ -129,7 +130,7 @@ nav .search{
     padding-top:0;
 }
 
-.profContent{
+#profile .profContent{
     font-size:18px;
     margin:10px auto;
     outline:1px solid black;
@@ -137,6 +138,19 @@ nav .search{
     max-width:1024px;
     padding:10px;
     /* width:90%; */
+}
+
+#profile .card{
+    border:1px solid #ddd;
+}
+
+.three{
+    border:2px dotted red;
+    max-width:1024px;
+}
+
+#profile .cardHolder{
+    margin: 0 auto;
 }
 /******************************************************************************
 **  list page
@@ -157,3 +171,4 @@ nav .search{
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+
