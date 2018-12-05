@@ -1735,45 +1735,27 @@ function accumulateItemVals(){
 
 module.exports = {init}
 },{"./utils":36}],29:[function(require,module,exports){
-const {axios, addListenersToMany} = require('./utils')
-const cardTemplate = require('./templates')
+const {axios} = require('./utils')
 
 function init(){
     axios('/auth/token')
     .then(result => {
         const id = result.data.id
-        return axios(`/users/${id}`)
-    })
-    .then((result) => {
-        document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
-        return getUser(3)
-    })
-    .then( () => {
-        $('.ui.accordion')
-            .accordion()
-            ;
-    })
-
-}
-
-function getUser(id){
-    axios(`/users/${id}`)
-    .then(result => {
-        console.log(result)
-        createHeader(result.data[0])
-        return axios(`/users/${id}/lists`)
-    })
-    .then(result => {
-        console.log(result)
+        getCardList(id)
     })
 }
 
 const loadCards = cardList => {
+    if(cardList === undefined) {
+        document.getElementById('cardColumnContainer').innerHTML = `
+        <h5>There' nothing here.</h5>`
+        return
+    }
     for(let i = 0; i < cardList.length; i++) {
-        let card = document.getElementById(`#listCard${i}`)
+        let card = document.getElementById(`listCard${i}`)
         card.innerHTML = `
         <div class="image">
-            <img src="${cardList[i].coverPhoto}">
+            <img src="${cardList[i].img}">
             </div>
             <div class="content">
                 <p class="header">${cardList[i].list_name}</p>
@@ -1784,7 +1766,6 @@ const loadCards = cardList => {
             <div class="ui accordion">
                 <div class="title">
                     <i class="dropdown icon"></i>
-                    items
                 </div>
                 <div class="content">
                 </div>
@@ -1798,12 +1779,13 @@ const loadCards = cardList => {
 }
 
 const getCardList = (userId) => {
-    axios.get(`/users/${userId}/lists`)
-    .then()
+    axios(`/users/${userId}/lists`)
+    .then(result => loadCards(result.data))
+    .catch(() => loadCards())
 }
 
 module.exports = {init}
-},{"./templates":35,"./utils":36}],30:[function(require,module,exports){
+},{"./utils":36}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
