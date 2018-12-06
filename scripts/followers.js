@@ -16,9 +16,8 @@ function init() {
 }
 
 function renderFollowers(ele){
-    return `<a href="http://localhost:3000/users/${ele.id}/profile.html" class="ui bordered medium image followerImage">
-//     <img data-id="${ele.id}" src="${ele.img}"><label>${ele.first_name} ${ele.last_name}</label>
-//   </a>`
+    return `<div class="three wide column"><div class="ui card"><a href="http://localhost:3000/users/${ele.id}/profile.html" class="ui bordered medium image followerImage">
+<img data-id="${ele.id}" src="${ele.img}"><label>${ele.first_name} ${ele.last_name}</label></a></div></div>`
 }
 
 
