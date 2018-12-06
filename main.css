@@ -84,13 +84,60 @@ nav h4{
 }
 
 .signoutDiv i{
+    position: relative;
     line-height:100px;
     display:inline-block;
     color: #ffffff90;
 }
 
-nav p{
+.viewFollowersDiv i{
+    position: relative;
     line-height:100px;
+    display:inline-block;
+    color: #ffffff90;
+}
+
+.addListDiv i{
+    position: relative;
+    line-height:100px;
+    display:inline-block;
+    color: #ffffff90;
+}
+
+.hoveredIcons {
+    text-align: center;
+    height: 30px;
+    background-color: grey;
+    color:white;
+    position: absolute;
+    width: 100px;
+    padding: 5px 0;
+    border-radius: 6px;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1;
+    margin-left: -100px;
+    margin-top: -25px;
+    transition: opacity .2s, visibility .2s;
+}
+
+.viewFollowersDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+.addListDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+.signoutDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+nav p{
+    line-height: 100px;
     display:inline-block;
     padding: 0 20px;
     color:white;

@@ -10,7 +10,9 @@ function init(){
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
             document.querySelector('body').setAttribute('data-id', result.data[0].id)
-            document.querySelector('.signoutDiv p').addEventListener('click', signout)
+            // document.querySelector('.viewFollowersDiv i').addEventListener('click', viewFollowers)
+            // document.querySelector('.addListDev i').addEventListener('click', viewYourLists)
+            document.querySelector('.signoutDiv i').addEventListener('click', signout)
         })
         .catch(err => {
             if(err.reponse) console.error(err.response.data)

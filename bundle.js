@@ -2009,14 +2009,18 @@ function init(){
     })
 
     axios('/lists')
-    .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
+    .then(result => {
+        console.log(result.data)
+        let sortedData = result.data.sort(timeStampCompare)
+        console.log(sortedData)
+        loadNewsFeed(sortedData)})
 }
 
 
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
-        <h5>There's nothing here.</h5>`
+        <h3 style="display:flex; justify-content: center; font-size: 2em;">There's nothing here.</h3>`
         return
     }
     let incrementTo
@@ -2080,7 +2084,7 @@ const getCardList = (userId) => {
 const loadNewsFeed = (lists) => {
     if(lists === undefined) {
         document.getElementById('newsFeed').innerHTML = `
-        <h5>There's nothing here.</h5>`
+        <h3 style="display:flex; justify-content: center; font-size: 2em;">There's nothing here.</h3>`
         return
     }
 
@@ -2213,7 +2217,9 @@ function init(){
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
             document.querySelector('body').setAttribute('data-id', result.data[0].id)
-            document.querySelector('.signoutDiv p').addEventListener('click', signout)
+            // document.querySelector('.viewFollowersDiv i').addEventListener('click', viewFollowers)
+            // document.querySelector('.addListDev i').addEventListener('click', viewYourLists)
+            document.querySelector('.signoutDiv i').addEventListener('click', signout)
         })
         .catch(err => {
             if(err.reponse) console.error(err.response.data)
