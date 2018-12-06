@@ -48,5 +48,20 @@ function listItemTemplate(item){
     </div>
     </a>`
     }
+
+function editableItemTemplate(item = {}){
+    return `
+    <div class="field" data-id="${item.items_id}">
+        <div class="ui left icon input">
+            <i class="circle plus icon"></i>
+            <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL" value="${item.source_url || ''}">
+                    </div>
+
+            <div class="ui left icon input">
+                <i class="pencil icon"></i>
+                <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis" value="${item.synopsis || ''}">
+            </div>
+    </div>`
+}
     
-module.exports = {cardTemplate, listItemTemplate}
+module.exports = {cardTemplate, listItemTemplate, editableItemTemplate}

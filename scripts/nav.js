@@ -1,9 +1,10 @@
 const {axios} = require('./utils')
 
 function init(){
-    axios('/auth/token')
+   return axios('/auth/token')
         .then(result => {
             const id = result.data.id
+            localStorage.setItem('uId', id)
             return axios(`/users/${id}`)
         })
         .then((result) => {
@@ -12,7 +13,7 @@ function init(){
             document.querySelector('.signoutDiv p').addEventListener('click', signout)
         })
         .catch(err => {
-            console.error(err.response.data)
+            if(err.reponse) console.error(err.response.data)
             if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
 }
@@ -20,6 +21,8 @@ function init(){
 function signout(){
     localStorage.removeItem('token')
     localStorage.removeItem('uId')
+    localStorage.removeItem('lId')
+    localStorage.removeItem('edit')
     window.location.pathname = '/'
 }
 

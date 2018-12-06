@@ -1630,13 +1630,127 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
+const {checkImg} = require('./listOperations')
 const {axios, addManyListenersToOne} = require('./utils')
+const {editableItemTemplate} = require('./templates')
 
 function init(){
+    const listId = localStorage.getItem('edit')
+    if(!listId) return listOperations.init()
+    const userId = localStorage.getItem('uId')
+    addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
+    return fillForm(userId, listId)
+}
+
+function fillForm(userId, listId){
+    return axios(`/users/${userId}/lists/${listId}/items`)
+    .then(results => {
+        addItemInfo(results.data)
+        prepButtons()
+        return axios(`/users/${userId}/lists/${listId}`)
+    })
+    .then(result => {
+        addListInfo(result.data[0])    
+    })
+}
+
+function addListInfo(list){
+    document.querySelector('#list_name').value = list.list_name
+    document.querySelector('#img').value = list.img
+    document.querySelector('header').style.backgroundImage = `url('${list.img}')`
+    document.querySelector('#listContainer').setAttribute('data-id', list.id)
+    document.querySelector('textarea').value = list.desc
+}
+
+function addItemInfo(itemArr){
+    document.querySelector('#new').remove()
+    document.querySelector('.field:last-of-type').remove()
+    const inputArr = []
+    itemArr.forEach(item => inputArr.push(editableItemTemplate(item)))
+    document.querySelector('.stacked.segment').innerHTML += inputArr.join('')
+}
+
+function prepButtons(){
+    document.querySelector('#submit').textContent = "change"
+    document.querySelector('#submit').classList.remove('disabled')
+    document.querySelector('#listForm').innerHTML += '<button id="cancel" type="button" class="ui fluid large grey submit button">cancel</button>'
+    document.querySelector('#cancel').addEventListener('click', cancel)
+    document.querySelector('#submit').addEventListener('click', function(e){submit(e)})
+}
+
+function cancel(){
+    localStorage.removeItem('edit')
+    window.location.pathname = '/listPage/listPage.html'
+}
+
+function submit(e){
+    e.preventDefault()
+    const userId = document.querySelector('body').getAttribute('data-id')
+    const body = accumulateListVals()
+    body.id = document.querySelector('#listContainer').getAttribute('data-id')
+    const listId = body.id
+
+    return axios(`/users/${userId}/lists/${listId}`, 'put', body)
+    .then(result => {
+        const itemBody = accumulateItemVals(listId, true)
+        const promiseArray = []
+        for(let item of itemBody){
+            promiseArray.push(axios(`/users/${userId}/lists/${listId}/items/${item.id}`, 'put', item))
+        }
+        return Promise.all(promiseArray)
+    })
+    .then(() => {
+        localStorage.removeItem('edit')
+        window.location.pathname = '/listPage/listPage.html'
+    })
+
+}
+
+//These are duplicates! As roger about circular dependencies/two files that require each other
+function accumulateListVals() {
+    const body = {}
+    body.list_name = document.querySelector('#list_name').value
+    body.img = document.querySelector('#img').value
+    body.desc = document.querySelector('textarea').value
+    return body
+}
+
+function accumulateItemVals(lId, isEdit = false) {
+    const body = []
+    let entry = {
+        source_url: undefined,
+        synopsis: undefined,
+        list_id: lId
+    }
+
+    const inputs = document.querySelectorAll('.itemData')
+    for (let input of inputs) {
+        if (input.getAttribute('type') === 'url') entry.source_url = input.value
+        else entry.synopsis = input.value
+        
+        if (isEdit) {
+            entry.id = input.parentElement.parentElement.getAttribute('data-id')
+        }
+
+        if (!!entry.source_url && !!entry.synopsis) {
+            body.push(entry)
+            entry = { list_id: lId }
+        }
+    }
+    return body
+}
+
+module.exports = {init}
+},{"./listOperations":29,"./templates":37,"./utils":38}],29:[function(require,module,exports){
+const {axios, addManyListenersToOne} = require('./utils')
+const {editableItemTemplate} = require('./templates')
+const edit = require('./edit')
+
+function init(){
+    if(localStorage.getItem('edit')) return edit.init()
     document.addEventListener('keyup', checkInputs)
     document.addEventListener('keyup', activateBtn)
     addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
-    
 }
 
 function checkInputs(){
@@ -1658,17 +1772,7 @@ function addNewField(e){
     let vals = persistVals()
     document.querySelector('#new').remove()
     document.querySelector('.ui.stacked').innerHTML += `
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="circle plus icon"></i>
-                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
-                    </div>
-
-                    <div class="ui left icon input">
-                        <i class="pencil icon"></i>
-                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
-                    </div>
-                </div>
+                ${editableItemTemplate()}
                 <button id="new" type="button" class="ui teal submit button disabled">+</button>`
     return reAddVals(vals)
 }
@@ -1753,20 +1857,31 @@ function accumulateItemVals(lId){
 }
 
 
-module.exports = {init}
-},{"./utils":37}],29:[function(require,module,exports){
+module.exports = {init, accumulateItemVals, accumulateListVals, checkImg}
+},{"./edit":28,"./templates":37,"./utils":38}],30:[function(require,module,exports){
 const {axios} = require('./utils')
 const {listItemTemplate} = require('./templates')
+const nav = require('./nav')
 
 function init(){
-    const userId = document.querySelector('body').getAttribute('data-id')
-    const listId = localStorage.getItem('lId')
-    return axios(`/users/${userId}/lists/${listId}`)
+    let userId
+    let listId
+    return nav.init()
+    .then(() => {
+        userId = document.querySelector('body').getAttribute('data-id')
+        listId = localStorage.getItem('lId')
+        // localStorage.removeItem('lId')
+        document.querySelector('header').setAttribute('data-id', listId)
+        return axios(`/users/${userId}/lists/${listId}`)    
+    })
     .then(result => {
         console.log(result)
-        addListInfo(result.data[0])
+        console.log(result.data[0].user_id, userId)
+        if (result.data[0].user_id == userId) addEditBtn()
+        if (result.data[0].user_id) addListInfo(result.data[0])
         return axios(`/users/${userId}/lists/${listId}/items`)
     })
+    
     .then(result => {
         console.log(result)
         const cardHTML = []
@@ -1776,14 +1891,29 @@ function init(){
     .catch(err => console.log(err))
 }
 
-function addListInfo(list){
+function addListInfo(list) {
     document.querySelector('#listPage header').style.backgroundImage = `url("${list.img}")`
     document.querySelector('#listPage .name').textContent = list.list_name
     document.querySelector('#listPage .profContent').textContent = list.desc
+    document.querySelector('title').textContent = list.list_name
 }
 
+function addEditBtn(){
+    document.querySelector('body').innerHTML += '<div class="editBtn"><i class="pencil icon"></i></div>'
+    document.querySelector('.editBtn').addEventListener('click', editList)
+}
+
+function editList(){
+    const lId = document.querySelector('header').getAttribute('data-id')
+    console.log('works', lId)
+    localStorage.setItem('edit', lId)
+    window.location.pathname = '/listOperations/listOperations.html'
+}
+
+
+
 module.exports = {init}
-},{"./templates":36,"./utils":37}],30:[function(require,module,exports){
+},{"./nav":34,"./templates":37,"./utils":38}],31:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
@@ -1792,13 +1922,16 @@ function init(){
         const id = result.data.id
         getCardList(id)
     })
+
+    axios('/lists')
+    .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
 }
 
 
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
-        <h5>There' nothing here.</h5>`
+        <h5>There's nothing here.</h5>`
         return
     }
     let incrementTo
@@ -1811,8 +1944,7 @@ const loadCards = (cardList, limit) => {
         let card = document.getElementById(`${i}`)
         card.innerHTML = `
         <div class="ui card">
-            <div class="image">
-                <img src="${cardImage(cardList[i])}">
+            <div class="cardImage" style="background-image: url('${cardImage(cardList[i])}')">
                 </div>
                 <div class="content">
                     <p class="header">${cardList[i].list_name}</p>
@@ -1839,6 +1971,7 @@ const loadCards = (cardList, limit) => {
 
 const sortedCards = cardList => cardList.sort(timeStampCompare)
 
+
 const timeStampCompare = (a, b) => {
     const timeStampA = new Date(a.updated_at).getTime
     const timeStampB = new Date(b.updated_at).getTime
@@ -1855,12 +1988,70 @@ const cardDesc = obj => obj.desc ? `${obj.desc}` : "There's nothing here."
 
 const getCardList = (userId) => {
     axios(`/users/${userId}/lists`)
-    .then(result => loadCards(sortedCards(result.data)))
+    .then(result => loadCards(sortedCards(result.data), 12))
     .catch(() => loadCards())
 }
 
+const loadNewsFeed = (lists) => {
+    if(lists === undefined) {
+        document.getElementById('newsFeed').innerHTML = `
+        <h5>There's nothing here.</h5>`
+        return
+    }
+
+    let feed = document.getElementById('newsFeed')
+    let incrementTo
+
+    if(lists.length > 10) {
+        incrementTo = 10
+    } else {
+        incrementTo = lists.length
+    }
+
+    for(let i = 0; i < incrementTo; i++){
+        if(i % 2 === 0) {
+            feed.innerHTML += `
+            <div class="item" id="newsFeedCard">
+                <div class="content">
+                    <a class="header">${lists[i].list_name}</a>
+                    <div class="meta">
+                        <span>${cardDesc(lists[i])}</span>
+                    </div>
+                <div class="description">
+                    <p id="descfeed5"></p>
+                </div>
+                <div class="extra">
+                        <p id="timefeed5"></p>
+                </div>
+                </div>
+                <div class="image" id="feedImage" style="background-image: url('${cardImage(lists[i])}')">
+                </div>
+            </div>`
+        } else {
+            feed.innerHTML += `
+            <div class="item" id="newsFeedCard">
+                <div class="image" id="feedImage" style="background-image: url('${cardImage(lists[i])}')">
+                </div>
+                <div class="content">
+                    <a class="header">${lists[i].list_name}</a>
+                    <div class="meta">
+                        <span>${cardDesc(lists[i])}</span>
+                    </div>
+                    <div class="description">
+                        <p id="descfeed5"></p>
+                    </div>
+                    <div class="extra">
+                        <p id="timefeed5"></p>
+                    </div>
+                </div>
+            </div>`
+        }
+    }
+
+}
+
 module.exports = {init}
-},{"./utils":37}],31:[function(require,module,exports){
+},{"./utils":38}],32:[function(require,module,exports){
 const {axios} = require('./utils')
 const signup = require('./signup')
 
@@ -1901,7 +2092,7 @@ function getBody(){
 
 
 module.exports = {init}
-},{"./signup":35,"./utils":37}],32:[function(require,module,exports){
+},{"./signup":36,"./utils":38}],33:[function(require,module,exports){
 const profile = require('./profile')
 const landingPage = require('./loadLanding')
 const login = require('./login')
@@ -1922,13 +2113,14 @@ const pageInit = {
 
 nav.init()
 pageInit[path]()
-},{"./listOperations":28,"./listPage":29,"./loadLanding":30,"./login":31,"./nav":33,"./profile":34}],33:[function(require,module,exports){
+},{"./listOperations":29,"./listPage":30,"./loadLanding":31,"./login":32,"./nav":34,"./profile":35}],34:[function(require,module,exports){
 const {axios} = require('./utils')
 
 function init(){
-    axios('/auth/token')
+   return axios('/auth/token')
         .then(result => {
             const id = result.data.id
+            localStorage.setItem('uId', id)
             return axios(`/users/${id}`)
         })
         .then((result) => {
@@ -1937,7 +2129,7 @@ function init(){
             document.querySelector('.signoutDiv p').addEventListener('click', signout)
         })
         .catch(err => {
-            console.error(err.response.data)
+            if(err.reponse) console.error(err.response.data)
             if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
 }
@@ -1945,13 +2137,15 @@ function init(){
 function signout(){
     localStorage.removeItem('token')
     localStorage.removeItem('uId')
+    localStorage.removeItem('lId')
+    localStorage.removeItem('edit')
     window.location.pathname = '/'
 }
 
 
 
 module.exports = {init}
-},{"./utils":37}],34:[function(require,module,exports){
+},{"./utils":38}],35:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
 const {cardTemplate} = require('./templates')
@@ -1996,7 +2190,7 @@ function getListItems(e){
     return axios(`/users/_/lists/${id}/items`)
 }
 module.exports = {init}
-},{"./nav":33,"./templates":36,"./utils":37}],35:[function(require,module,exports){
+},{"./nav":34,"./templates":37,"./utils":38}],36:[function(require,module,exports){
 const {axios} = require('./utils')
 const login = require('./login')
 
@@ -2058,7 +2252,7 @@ function submit(e, body){
 }
 
 module.exports = {init}
-},{"./login":31,"./utils":37}],36:[function(require,module,exports){
+},{"./login":32,"./utils":38}],37:[function(require,module,exports){
 const cardUrls = [
     'https://i0.wp.com/www.deteched.com/wp-content/uploads/2018/03/36048.jpg?fit=400%2C9999',
     'https://amp.businessinsider.com/images/4f6b6457ecad042a6a000004-320-240.jpg',
@@ -2109,9 +2303,24 @@ function listItemTemplate(item){
     </div>
     </a>`
     }
+
+function editableItemTemplate(item = {}){
+    return `
+    <div class="field" data-id="${item.items_id}">
+        <div class="ui left icon input">
+            <i class="circle plus icon"></i>
+            <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL" value="${item.source_url || ''}">
+                    </div>
+
+            <div class="ui left icon input">
+                <i class="pencil icon"></i>
+                <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis" value="${item.synopsis || ''}">
+            </div>
+    </div>`
+}
     
-module.exports = {cardTemplate, listItemTemplate}
-},{}],37:[function(require,module,exports){
+module.exports = {cardTemplate, listItemTemplate, editableItemTemplate}
+},{}],38:[function(require,module,exports){
 const axiosMod = require('axios')
 
 function axios(url, method = 'get', body = null){
@@ -2141,4 +2350,4 @@ function addManyListenersToOne(ele, triggerArr, fn){
 }
 
 module.exports = {axios, addListenersToMany, addManyListenersToOne}
-},{"axios":1}]},{},[32]);
+},{"axios":1}]},{},[33]);
