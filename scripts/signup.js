@@ -51,6 +51,7 @@ function submit(e, body){
         document.querySelector('.button').classList.add('disabled')
     })
     .catch(err => {
+        if(err)
         document.querySelector('body').innerHTML += `
             <div class="ui alert">${err.response.data.message}.</div> 
         `
