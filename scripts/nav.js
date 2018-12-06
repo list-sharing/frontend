@@ -14,7 +14,7 @@ function init(){
         })
         .catch(err => {
             if(err.reponse) console.error(err.response.data)
-            if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
+            if (querySelectorwindow.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
 }
 
