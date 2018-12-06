@@ -5,8 +5,8 @@
     min-height: 15em;
 }
 
-.coloredOne {
-    color:  #71BBD0;
+.coloredOne, .teal {
+    color:  #71BBD0 !important; 
 }
 
 .coloredTwo {
@@ -133,10 +133,10 @@ nav .search{
 #profile .profContent{
     font-size:18px;
     margin:10px auto;
-    outline:1px solid black;
     display:inline-block;
     max-width:1024px;
     padding:10px;
+    outline:1px solid black;    
     /* width:90%; */
 }
 
@@ -145,33 +145,36 @@ nav .search{
 }
 
 .three{
-    border:2px dotted red;
     max-width:1024px;
 }
 
-#profile .cardHolder{
-    margin: 0 auto;
+.cardHolder{
+    margin: 0 auto !important;
 }
 /******************************************************************************
 **  list page
 ******************************************************************************/
 
-.minMaxedImage {
-    width: 100%;
-    height: 50em;
-    background-image: url('./listPage/ListNamePhoto.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+#listPage header{
+    height:300px;
+    background-size:cover;
+    margin-top:100px;
+    margin-bottom:20px;
 }
 
-.listImage1 {
-    width: 5em;
-    height: 5em;
-    background-image: url('./listPage/ListOne.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+#listPage .name{
+    width:100%;
+    text-align:center;
+    margin:0;
 }
 
+#listPage .profContent{
+    color:white;
+    font-size:24px;
+    width:100%;
+    text-align:center;
+}
+/******************************************************************************
 **  list operations page
 ******************************************************************************/
 
@@ -218,3 +221,4 @@ input[type="file"]{
     height: 5em;
     background-size: 100% 100%;
 }
+

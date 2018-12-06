@@ -11,6 +11,7 @@ function init(){
     .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
 }
 
+
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
@@ -50,6 +51,7 @@ const loadCards = (cardList, limit) => {
         })
     }
 }
+
 
 const sortedCards = cardList => cardList.sort(timeStampCompare)
 
