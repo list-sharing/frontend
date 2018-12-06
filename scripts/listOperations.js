@@ -1,4 +1,5 @@
 const {axios, addManyListenersToOne} = require('./utils')
+const {editableItemTemplate} = require('./templates')
 const edit = require('./edit')
 
 function init(){
@@ -27,17 +28,7 @@ function addNewField(e){
     let vals = persistVals()
     document.querySelector('#new').remove()
     document.querySelector('.ui.stacked').innerHTML += `
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="circle plus icon"></i>
-                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
-                    </div>
-
-                    <div class="ui left icon input">
-                        <i class="pencil icon"></i>
-                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
-                    </div>
-                </div>
+                ${editableItemTemplate()}
                 <button id="new" type="button" class="ui teal submit button disabled">+</button>`
     return reAddVals(vals)
 }
