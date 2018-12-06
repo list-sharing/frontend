@@ -1745,13 +1745,13 @@ function init(){
     })
 
     axios('/lists')
-    .then(result => loadNewsFeed(result.sort(timeStampCompare)))
+    .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
 }
 
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
-        <h5>There' nothing here.</h5>`
+        <h5>There's nothing here.</h5>`
         return
     }
     let incrementTo
@@ -1790,6 +1790,7 @@ const loadCards = (cardList, limit) => {
 
 const sortedCards = cardList => cardList.sort(timeStampCompare)
 
+
 const timeStampCompare = (a, b) => {
     const timeStampA = new Date(a.updated_at).getTime
     const timeStampB = new Date(b.updated_at).getTime
@@ -1811,7 +1812,61 @@ const getCardList = (userId) => {
 }
 
 const loadNewsFeed = (lists) => {
-    
+    if(lists === undefined) {
+        document.getElementById('newsFeed').innerHTML = `
+        <h5>There's nothing here.</h5>`
+        return
+    }
+
+    let feed = document.getElementById('newsFeed')
+    let incrementTo
+
+    if(lists.length > 15) {
+        incrementTo = 15
+    } else {
+        incrementTo = lists.length
+    }
+
+    for(let i = 0; i < incrementTo; i++){
+        if(i % 2 === 0) {
+            feed.innerHTML += `
+            <div class="item" id="newsFeedCard">
+                <div class="content">
+                    <a class="header">${lists[i].list_name}</a>
+                    <div class="meta">
+                        <span>${cardDesc(lists[i])}</span>
+                    </div>
+                <div class="description">
+                    <p id="descfeed5"></p>
+                </div>
+                <div class="extra">
+                        <p id="timefeed5"></p>
+                </div>
+                </div>
+                <div class="image" id="feedImage" style="background-image: url('${cardImage(lists[i])}')">
+                </div>
+            </div>`
+        } else {
+            feed.innerHTML += `
+            <div class="item" id="newsFeedCard">
+                <div class="image" id="feedImage" style="background-image: url('${cardImage(lists[i])}')">
+                </div>
+                <div class="content">
+                    <a class="header">${lists[i].list_name}</a>
+                    <div class="meta">
+                        <span>${cardDesc(lists[i])}</span>
+                    </div>
+                    <div class="description">
+                        <p id="descfeed5"></p>
+                    </div>
+                    <div class="extra">
+                        <p id="timefeed5"></p>
+                    </div>
+                </div>
+            </div>`
+        }
+    }
+
 }
 
 module.exports = {init}

@@ -212,3 +212,9 @@ input[type="file"]{
     height: 10em;
     background-size: 100% 100%;
 }
+
+#feedImage {
+    width: 5em;
+    height: 5em;
+    background-size: 100% 100%;
+}
