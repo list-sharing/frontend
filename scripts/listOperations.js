@@ -113,4 +113,4 @@ function accumulateItemVals(lId){
 }
 
 
-module.exports = {init}
+module.exports = {init, accumulateItemVals, accumulateListVals, checkImg}

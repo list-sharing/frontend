@@ -51,7 +51,7 @@ function listItemTemplate(item){
 
 function editableItemTemplate(item = {}){
     return `
-    <div class="field" data-id="${item.id}">
+    <div class="field" data-id="${item.items_id}">
         <div class="ui left icon input">
             <i class="circle plus icon"></i>
             <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL" value="${item.source_url || ''}">
