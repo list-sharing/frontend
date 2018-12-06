@@ -9,6 +9,8 @@ function init(){
     .then(() => {
         userId = document.querySelector('body').getAttribute('data-id')
         listId = localStorage.getItem('lId')
+        // localStorage.removeItem('lId')
+        document.querySelector('header').setAttribute('data-id', listId)
         return axios(`/users/${userId}/lists/${listId}`)    
     })
     .then(result => {
@@ -28,14 +30,25 @@ function init(){
     .catch(err => console.log(err))
 }
 
-function addEditBtn(){
-    
-}
-
-function addListInfo(list){
+function addListInfo(list) {
     document.querySelector('#listPage header').style.backgroundImage = `url("${list.img}")`
     document.querySelector('#listPage .name').textContent = list.list_name
     document.querySelector('#listPage .profContent').textContent = list.desc
+    document.querySelector('title').textContent = list.list_name
 }
+
+function addEditBtn(){
+    document.querySelector('body').innerHTML += '<div class="editBtn"><i class="pencil icon"></i></div>'
+    document.querySelector('.editBtn').addEventListener('click', editList)
+}
+
+function editList(){
+    const lId = document.querySelector('header').getAttribute('data-id')
+    console.log('works', lId)
+    localStorage.setItem('edit', lId)
+    window.location.pathname = '/listOperations/listOperations.html'
+}
+
+
 
 module.exports = {init}

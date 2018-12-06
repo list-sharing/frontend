@@ -1,10 +1,11 @@
 const {axios, addManyListenersToOne} = require('./utils')
+const edit = require('./edit')
 
 function init(){
+    if(localStorage.getItem('edit')) return edit.init()
     document.addEventListener('keyup', checkInputs)
     document.addEventListener('keyup', activateBtn)
     addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
-    
 }
 
 function checkInputs(){

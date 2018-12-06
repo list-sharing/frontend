@@ -160,12 +160,15 @@ nav .search{
     background-size:cover;
     margin-top:100px;
     margin-bottom:20px;
+    position:relative;
 }
 
 #listPage .name{
     width:100%;
     text-align:center;
     margin:0;
+    z-index:99;
+    position:relative;
 }
 
 #listPage .profContent{
@@ -173,6 +176,41 @@ nav .search{
     font-size:24px;
     width:100%;
     text-align:center;
+    z-index:99;
+    position:relative;
+}
+
+.editBtn{
+    width:50px;
+    height:50px;
+    position:fixed;
+    background-color:#71BBD0;
+    color:white;
+    right:20px; 
+    bottom:20px;
+    box-shadow: 0 2px 2px 0 #00000050;
+    border-radius:50%;
+}
+
+#listPage .editBtn i{
+    font-size:24px;
+    line-height:50px;
+    display:block;
+    text-align:center;
+    width:100%;
+}
+.editBtn:hover{
+    cursor:pointer;
+    transform:scale(1.1)
+}
+
+.tintScreen{
+background-color:#00000050;
+position:absolute;
+top:0; 
+height:300px;
+width:100%;
+z-index:0;
 }
 /******************************************************************************
 **  list operations page
@@ -210,6 +248,3 @@ input[type="file"]{
     border-top:none;
 }
 
-/******************************************************************************
-**  list page 
-******************************************************************************/
