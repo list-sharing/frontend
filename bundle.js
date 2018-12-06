@@ -2204,7 +2204,7 @@ module.exports = {init}
 },{"./utils":38}],35:[function(require,module,exports){
 const {axios, addListenersToMany} = require('./utils')
 const nav = require('./nav')
-const {cardTemplate, addModalTemplate} = require('./templates')
+const {cardTemplate, profileForm} = require('./templates')
 
 function init(){
     let otherUserId = localStorage.getItem('otherUserId')
@@ -2255,47 +2255,52 @@ function getListItems(e){
 function userPrivs(){
     document.querySelector('body').innerHTML += '<div class="editBtn"><i class="pencil icon"></i></div>'
     document.querySelector('.editBtn').addEventListener('click', edit)
-    
 }
 
 function edit(){
-    const id = document.querySelector('body').getAttribute('data-id')
-    document.querySelector('body').innerHTML += addModalTemplate(function(){profileForm(id)})
-    $('.ui.modal').modal('show')
-}
-
-function profileForm(userId){
+    const userId = document.querySelector('body').getAttribute('data-id')
     return axios(`/users/${userId}`)
-    .then( result =>{
-        user = result.data[0]
-        console.log(user)
-    return `
-        <form id="profileForm" class="ui large form>
-              <div class="ui stacked segment">
-                        <div class="fields">
-                            <div class="field">
-                                <input id="first_name" type="text" required maxlength="150" value="${user.first_name}">
-                                <input id="last_name" type="text" required maxlength="150" value="${user.last_name}">
-                            </div>
-                        </div>
-    
-                        <div class="field">
-                            <div class="ui left icon input">
-                                <i class="user icon"></i>
-                                <input id="img" type="url" name="img" value="${user.img}">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                                <textarea id="bio" name="bio">${user.bio}</textarea>
-                        </div>
-                    </div>
-    
-                    <div class="ui error message"></div>
-                    <button id="submit" type="submit" class="ui fluid large teal submit button disabled">submit</button>
-                </form>`
+        .then(result => {
+            user = result.data[0]
+            document.querySelector('body').innerHTML += profileForm(user)        
+        })
+        .then(() => {
+            $('.ui.modal').modal('show')
+            prepButtons()
         })
 }
+
+function prepButtons() {
+    document.querySelector('#submit').textContent = "change"
+    document.querySelector('#submit').classList.remove('disabled')
+    document.querySelector('#cancel').addEventListener('click', cancel)
+    document.querySelector('#submit').addEventListener('click', function (e) { submit(e) })
+}
+
+function cancel(){
+    $('.ui.modal').modal('hide')
+    document.querySelector('.editBtn').onclick = function(){$('.ui.modal').modal('show')}
+}
+
+function submit(e) {
+    e.preventDefault()
+    const userId = document.querySelector('body').getAttribute('data-id')
+    const body = {id:userId}
+    const input = document.querySelectorAll('form input')
+    body.first_name = input[0].value
+    body.last_name = input[1].value
+    body.img = input[2].value
+    body.bio = document.querySelector('textarea').value
+    console.log(body)    
+
+    return axios(`/users/${userId}`, 'put', body)
+        .then(result => {
+            console.log(result)
+            window.location.reload()
+        })
+}
+
+
 
 module.exports = {init}
 },{"./nav":34,"./templates":37,"./utils":38}],36:[function(require,module,exports){
@@ -2439,8 +2444,42 @@ function addModalTemplate(fn) {
         </form>
     </div>`
 }
+
+function profileForm(user) {
+    return `
+    <div class="ui modal">
+        
+        <div class="header">Profile</div>
+
+        <form id="profileForm" class="ui large form">
+            <div class="ui stacked segment">
+                        
+                <div class="fields">
+                    <div class="field">
+                        <input id="first_name" type="text" required maxlength="150" value="${user.first_name}">
+                        <input id="last_name" type="text" required maxlength="150" value="${user.last_name}">
+                    </div>
+                </div>
     
-module.exports = {cardTemplate, listItemTemplate, editableItemTemplate, addModalTemplate}
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input id="img" type="url" name="img" value="${user.img}">
+                    </div>
+                </div>
+
+                <div class="field">
+                        <textarea id="bio" name="bio">${user.bio}</textarea>
+                </div>
+            </div>
+            <div class="segment">
+                <button id="submit" type="submit" class="ui approve button teal disabled">add</button>
+                <button id="cancel" type="button" class="ui cancel button">cancel</button>
+            </div>
+        </form>
+    </div>`
+}
+module.exports = {cardTemplate, listItemTemplate, editableItemTemplate, addModalTemplate, profileForm}
 },{}],38:[function(require,module,exports){
 const axiosMod = require('axios')
 
