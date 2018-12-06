@@ -63,5 +63,18 @@ function editableItemTemplate(item = {}){
             </div>
     </div>`
 }
+
+function addModalTemplate(fn) {
+    return `<div class="ui modal">
+        <div class="header">Header</div>
+        <form class="ui segment stacked content">
+           ${fn()}
+            <div class="segment">
+                <button type="submit" class="ui approve button teal disabled">add</button>
+                <button type="button" class="ui cancel button">cancel</button>
+            </div>
+        </form>
+    </div>`
+}
     
-module.exports = {cardTemplate, listItemTemplate, editableItemTemplate}
+module.exports = {cardTemplate, listItemTemplate, editableItemTemplate, addModalTemplate}
