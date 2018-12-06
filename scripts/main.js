@@ -4,6 +4,7 @@ const login = require('./login')
 const listOperations = require('./listOperations')
 const nav = require('./nav')
 const listPage =  require('./listPage')
+const followers = require('./followers')
 const path = window.location.pathname
 
 
@@ -13,7 +14,8 @@ const pageInit = {
     '/profilePage/profile.html': profile.init,
     '/signedInLandingPage/signedInLandingPage.html': landingPage.init,
     '/listOperations/listOperations.html': listOperations.init,
-    '/listPage/listPage.html': listPage.init
+    '/listPage/listPage.html': listPage.init,
+    '/friendsPage/followers.html': followers.init
 }
 
 nav.init()
