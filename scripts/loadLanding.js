@@ -86,8 +86,8 @@ const loadNewsFeed = (lists) => {
     let feed = document.getElementById('newsFeed')
     let incrementTo
 
-    if(lists.length > 15) {
-        incrementTo = 15
+    if(lists.length > 10) {
+        incrementTo = 10
     } else {
         incrementTo = lists.length
     }
