@@ -4,8 +4,10 @@ const {cardTemplate, profileForm} = require('./templates')
 
 function init(){
     let otherUserId = localStorage.getItem('otherUserId')
+    let triggerId = otherUserId || uId
     nav.init()
-    return getUser(otherUserId)
+
+    return getUser(triggerId)
     .then( () => {
         $('.ui.accordion').accordion();
     })
