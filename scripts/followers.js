@@ -7,7 +7,7 @@ function init() {
     axios('/auth/token')
     .then(function(response){
         const id = response.data.id
-        return axios(`/users/3/followers`)
+        return axios(`/users/${id}/followers`)
     })
         .then(response => {
             const main = document.querySelector('.mainContainer')
