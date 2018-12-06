@@ -8,14 +8,18 @@ function init(){
     })
 
     axios('/lists')
-    .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
+    .then(result => {
+        console.log(result.data)
+        let sortedData = result.data.sort(timeStampCompare)
+        console.log(sortedData)
+        loadNewsFeed(sortedData)})
 }
 
 
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
-        <h5>There's nothing here.</h5>`
+        <h3 style="display:flex; justify-content: center; font-size: 2em;">There's nothing here.</h3>`
         return
     }
     let incrementTo
@@ -79,7 +83,7 @@ const getCardList = (userId) => {
 const loadNewsFeed = (lists) => {
     if(lists === undefined) {
         document.getElementById('newsFeed').innerHTML = `
-        <h5>There's nothing here.</h5>`
+        <h3 style="display:flex; justify-content: center; font-size: 2em;">There's nothing here.</h3>`
         return
     }
 

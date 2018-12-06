@@ -14,54 +14,40 @@
     <script src="../bundle.js"></script>
 </head>
 <body id="profile">
-    <nav>
-        <div class="ui search">
-            <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Search lists...">
-                <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
-        </div>
-        <h4 class="welcome">Welcome,</h4>
-        <div class="signoutDiv">
-            <i class="user icon"></i>
-            <p>sign out</p>
-        </div>
-    </nav>
+        <nav>
+                <div class="ui search">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" placeholder="Search lists...">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+                <h4 class="welcome">Welcome,</h4>
+                <div class="ui grid fluid buttonDiv">
+                    <div class="five wide column addListDiv" style="display: inline-block">
+                        <i class="folder open outline icon"></i>
+                        <span class="hoveredIcons">List+</span>
+                    </div>
+                    <div class="five wide column viewFollowersDiv">
+                        <i class="user icon"></i>
+                        <span class="hoveredIcons">Followed</span>
+                    </div>
+                    <div class="five wide column signoutDiv">
+                            <i class="power off icon"></i>
+                            <span class="hoveredIcons">Sign Out</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
     <header>
-        <div class="profPic"></div>
-        <h2 class="name"></h2>
+        <div class="headerHolder">
+            <div class="profPic"></div>
+            <h2 class="name"></h2>
+        </div>
     </header>
     <p class="profContent"></p>
 
     <main class="cardHolder ui link cards three column grid">
-
-        <!-- <div class="ui card">
-            <div class="image">
-                <img src="/images/avatar2/large/kristy.png">
-            </div>
-            <div class="content">
-                <a class="header">Kristy</a>
-                <div class="meta">
-                    <span class="date">Joined in 2013</span>
-                </div>
-                <div class="description">
-                    Kristy is an art director living in New York.
-                </div>
-            </div>
-            <div class="ui accordion">
-                <div class="title">
-                    <i class="dropdown icon"></i>
-                    What is a dog?
-                </div>
-                <div class="content">
-                    <p class="transition hidden">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it
-                        can be found as a welcome guest in many households across the world.</p>
-                </div>
-            </div>
-        </div> -->
-
-    
     </main>
 </body>
 </html>

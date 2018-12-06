@@ -63,5 +63,52 @@ function editableItemTemplate(item = {}){
             </div>
     </div>`
 }
+
+function addModalTemplate(fn) {
+    return `<div class="ui modal">
+        <div class="header">Header</div>
+        <form class="ui segment stacked content">
+           ${fn()}
+            <div class="segment">
+                <button type="submit" class="ui approve button teal disabled">add</button>
+                <button type="button" class="ui cancel button">cancel</button>
+            </div>
+        </form>
+    </div>`
+}
+
+function profileForm(user) {
+    return `
+    <div class="ui modal">
+        
+        <div class="header">Profile</div>
+
+        <form id="profileForm" class="ui large form">
+            <div class="ui stacked segment">
+                        
+                <div class="fields">
+                    <div class="field">
+                        <input id="first_name" type="text" required maxlength="150" value="${user.first_name}">
+                        <input id="last_name" type="text" required maxlength="150" value="${user.last_name}">
+                    </div>
+                </div>
     
-module.exports = {cardTemplate, listItemTemplate, editableItemTemplate}
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input id="img" type="url" name="img" value="${user.img}">
+                    </div>
+                </div>
+
+                <div class="field">
+                        <textarea id="bio" name="bio">${user.bio}</textarea>
+                </div>
+            </div>
+            <div class="segment">
+                <button id="submit" type="submit" class="ui approve button teal disabled">add</button>
+                <button id="cancel" type="button" class="ui cancel button">cancel</button>
+            </div>
+        </form>
+    </div>`
+}
+module.exports = {cardTemplate, listItemTemplate, editableItemTemplate, addModalTemplate, profileForm}

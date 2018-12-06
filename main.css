@@ -58,6 +58,10 @@
     10%{opacity:0.9;}
     100%{opacity:1;}
 }
+
+main{
+    margin-bottom:50px;
+}
 /******************************************************************************
 **  profile
 ******************************************************************************/
@@ -80,13 +84,60 @@ nav h4{
 }
 
 .signoutDiv i{
+    position: relative;
     line-height:100px;
     display:inline-block;
     color: #ffffff90;
 }
 
-nav p{
+.viewFollowersDiv i{
+    position: relative;
     line-height:100px;
+    display:inline-block;
+    color: #ffffff90;
+}
+
+.addListDiv i{
+    position: relative;
+    line-height:100px;
+    display:inline-block;
+    color: #ffffff90;
+}
+
+.hoveredIcons {
+    text-align: center;
+    height: 30px;
+    background-color: grey;
+    color:white;
+    position: absolute;
+    width: 100px;
+    padding: 5px 0;
+    border-radius: 6px;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1;
+    margin-left: -100px;
+    margin-top: -25px;
+    transition: opacity .2s, visibility .2s;
+}
+
+.viewFollowersDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+.addListDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+.signoutDiv:hover .hoveredIcons {
+    visibility: visible;
+    opacity: 1;
+}
+
+nav p{
+    line-height: 100px;
     display:inline-block;
     padding: 0 20px;
     color:white;
@@ -115,29 +166,32 @@ nav .search{
 .profPic{
     height:100px;
     width:100px;
-    /* margin:50px; */
     background-size:100%;
     border-radius:50%;
     margin-top:50px;
+    vertical-align:middle;
+    display:inline-block;
+    margin-right:50px;
 }
 
 .name{
     display:inline-block;
     color:white;
     font-size:48px;
-    line-height:200px;
-    margin-top:0;
     padding-top:0;
+    display:inline-block;
+    vertical-align:middle;
+    height:100px;
+    line-height:120px;
 }
 
 #profile .profContent{
     font-size:18px;
     margin:10px auto;
     display:inline-block;
-    max-width:1024px;
     padding:10px;
-    outline:1px solid black;    
-    /* width:90%; */
+    width:70%; 
+    margin-left:15%;
 }
 
 #profile .card{
@@ -151,6 +205,8 @@ nav .search{
 .cardHolder{
     margin: 0 auto !important;
 }
+
+
 /******************************************************************************
 **  list page
 ******************************************************************************/
@@ -192,13 +248,14 @@ nav .search{
     border-radius:50%;
 }
 
-#listPage .editBtn i{
+#listPage .editBtn i, #profile .editBtn i{
     font-size:24px;
     line-height:50px;
     display:block;
     text-align:center;
     width:100%;
 }
+
 .editBtn:hover{
     cursor:pointer;
     transform:scale(1.1)
@@ -215,6 +272,15 @@ z-index:0;
 
 #cancel{
     margin-top:15px;
+}
+
+#addItem i{
+    font-size:36px;
+    opacity:.7;
+    display:block;
+    width:100%;
+    height:100%;
+    line-height:200px;
 }
 /******************************************************************************
 **  list operations page
