@@ -48,17 +48,17 @@ function editList(){
 }
 
 function addItem(){
-    document.querySelector('body').innerHTML += addItemTemplate()
+    document.querySelector('body').innerHTML += addItemTemplate(editableItemTemplate)
     $('.ui.modal').modal('show');
     document.querySelector('.cancel').onclick = minimize
     document.addEventListener('keyup', disableIfEmpty)
 }
 
-function addItemTemplate(){
+function addItemTemplate(fn){
     return `<div class="ui modal">
         <div class="header">Header</div>
         <form class="ui segment stacked content">
-           ${editableItemTemplate()}
+           ${fn()}
             <div class="segment">
                 <button type="submit" class="ui approve button teal disabled">add</button>
                 <button type="button" class="ui cancel button">cancel</button>
@@ -107,4 +107,4 @@ function submit(e){
     })
 }
 
-module.exports = {init}
+module.exports = {init, addItemTemplate}

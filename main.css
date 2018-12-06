@@ -166,29 +166,32 @@ nav .search{
 .profPic{
     height:100px;
     width:100px;
-    /* margin:50px; */
     background-size:100%;
     border-radius:50%;
     margin-top:50px;
+    vertical-align:middle;
+    display:inline-block;
+    margin-right:50px;
 }
 
 .name{
     display:inline-block;
     color:white;
     font-size:48px;
-    line-height:200px;
-    margin-top:0;
     padding-top:0;
+    display:inline-block;
+    vertical-align:middle;
+    height:100px;
+    line-height:120px;
 }
 
 #profile .profContent{
     font-size:18px;
     margin:10px auto;
     display:inline-block;
-    max-width:1024px;
     padding:10px;
-    outline:1px solid black;    
-    /* width:90%; */
+    width:70%; 
+    margin-left:15%;
 }
 
 #profile .card{
@@ -202,6 +205,8 @@ nav .search{
 .cardHolder{
     margin: 0 auto !important;
 }
+
+
 /******************************************************************************
 **  list page
 ******************************************************************************/
@@ -243,13 +248,14 @@ nav .search{
     border-radius:50%;
 }
 
-#listPage .editBtn i{
+#listPage .editBtn i, #profile .editBtn i{
     font-size:24px;
     line-height:50px;
     display:block;
     text-align:center;
     width:100%;
 }
+
 .editBtn:hover{
     cursor:pointer;
     transform:scale(1.1)
