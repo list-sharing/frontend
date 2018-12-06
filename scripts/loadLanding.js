@@ -8,6 +8,7 @@ function init(){
     })
 }
 
+
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
@@ -49,6 +50,7 @@ const loadCards = (cardList, limit) => {
     }
 }
 
+
 const sortedCards = cardList => cardList.sort(timeStampCompare)
 
 const timeStampCompare = (a, b) => {
@@ -70,6 +72,5 @@ const getCardList = (userId) => {
     .then(result => loadCards(sortedCards(result.data)))
     .catch(() => loadCards())
 }
-
 
 module.exports = {init}
