@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../main.css" />
+    <link rel="stylesheet" type="text/css" href="../semantic/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+    <script src="../semantic/dist/semantic.min.js"></script>
+    <script defer src="../bundle.js"></script>
+</head>
+
+<body id="listOps">
+    <nav>
+        <div class="ui search">
+            <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search lists...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+        </div>
+        <h4 class="welcome">Welcome,</h4>
+        <div class="signoutDiv">
+            <i class="user icon"></i>
+            <p>sign out</p>
+        </div>
+    </nav>
+    <header>
+        
+    </header>
+    
+
+    <div id="listContainer" class="description">
+        <div class="ui header">List</div>
+        <form id="listForm" class="ui large form">
+            <div class="ui stacked segment">    
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="tasks icon"></i>
+                        <input class="listData listInput" id="list_name" type="text" name="list_name" placeholder="List name" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="ui left icon action input">
+                        <i class="file image icon"></i>
+                        <input class="listData listInput" id="img" type="url" name="password" placeholder="Add a cover Photo">
+                        <button class="ui button" type="button" id="imgUrl" name="imgUrl" >upload</button>
+                        <input class="ui button" type="file" accept="image/png, image/jpg" id="img" name="img">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="ui  action input">
+                        <textarea class="ui listData listInput" id="desc" name="desc">List description</textarea>
+                    </div>
+                </div>
+
+    
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="circle plus icon"></i>
+                        <input class="itemData listInput" type="url" name="listItem" placeholder="Add a list item URL">
+                    </div>
+
+                    <div class="ui left icon input">
+                        <i class="pencil icon"></i>
+                        <input class="itemData listInput" type="text" name="listItem" placeholder="Add a list item synopsis">
+                    </div>
+                </div>
+
+                <div id="new" class="ui teal submit button disabled">+</div>
+            </div>
+            
+
+            <div class="ui error message"></div>
+            <button id="submit" type="button" class="ui fluid large teal submit button disabled">create</button>
+        </form>
+    
+    </div>
+    </div>
+</body>
+
+</html>

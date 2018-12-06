@@ -12,7 +12,7 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
     crossorigin="anonymous"></script>
     <script defer src="../semantic/dist/semantic.min.js"></script>
-    <script defer src="../scripts/main.js"></script>
+    <script defer src="../bundle.js"></script>
 </head>
 <nav>
     <div class="ui search">
@@ -30,134 +30,251 @@
 </nav>
 <body cz-shortcut-listen="true">
     <div class="ui grid" style="padding-top: 100px;">
-        <div class="ten wide column">
-            <div class="ui card" id="listCard0">
-                <div class="header">Featured List Name</div>
-                <div class="image">
-                    <img>
-                </div>
-                <div class="description">
-                    Description
-                </div>
+        <div class="ten wide column" id="cardColumnContainer">
+            <div class="ui container featuredCard" id="0">
             </div>
+            <br>
             <div class="ui grid">
                 <div class="row">
                     <div class="one wide column"></div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard1">
-                            <div class="header">List Name</div>
-                            <div class="image">
-                                <img>
-                            </div>
-                            <div class="description">
-                                Description
-                            </div>
+                    <div class="five wide column listCard"  id="1">
+                        <div class="ui card" style="visibility:hidden">
                         </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard2">
-                            <div class="header">List Name</div>
-                            <div class="image">
-                                <img src="">
-                            </div>
-                            <div class="description">
-                                Description
-                            </div>
+                    <div class="five wide column listCard"  id="2">
+                        <div class="ui card" style="visibility:hidden">
                         </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard3">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
+                    <div class="five wide column listCard"  id="3">
+                        <div class="ui card" style="visibility:hidden">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="one wide column"></div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard4">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
+                    <div class="five wide column listCard" id="4">
+                        <div class="ui card" style="visibility:hidden">
                         </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard5">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
-                            </div>
+                    <div class="five wide column listCard" id="5">
+                        <div class="ui card" style="visibility:hidden">
+                        </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard6">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
-                            </div>
+                    <div class="five wide column listCard" id="6">
+                        <div class="ui card" style="visibility:hidden">
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="one wide column"></div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard7">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
-                            </div>
+                    <div class="five wide column listCard" id="7">
+                        <div class="ui card" style="visibility: hidden">
+                        </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard8">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
-                            </div>
+                    <div class="five wide column listCard" id="8">
+                        <div class="ui card" style="visibility: hidden">
+                        </div>
                     </div>
-                    <div class="five wide column">
-                        <div class="ui card" id="listCard9">
-                            <div class="header">List Name</div>
-                                <div class="image">
-                                    <img src="">
-                                </div>
-                                <div class="description">
-                                    Description
-                                </div>
-                            </div>
+                    <div class="five wide column listCard" id="9">
+                        <div class="ui card" style="visibility: hidden">
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="ui vertical divider">
+    
+                  </div>
         </div>
+       
+        <!-- feed list -->
         <div class="six wide column">
-            <ul class="listFeed">
-                <li>Recent-1</li>
-                <li>Recent-2</li>
-                <li>Recent-3</li>
-            </ul>
+            <div class = "row">
+                <div class = "column wide sixteen"></div>
+            </div>
+                <div class="ui items">
+                    <!-- first loaded loaded in feed item -->
+                        <div class="item">
+                          <div class="image">
+                            <img src="" id ="img1feed">
+                          </div>
+                          <div class="content">
+                            <a class="header" id="userNamefeed1">Header</a>
+                            <div class="meta">
+                              <span>Description</span>
+                            </div>
+                            <div class="description">
+                              <p id="descfeed1"></p>
+                            </div>
+                            <div class="extra">
+                                <p id="timefeed1"></p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- second loaded in feed item -->
+                        <div class="item">
+                          <div class="content">
+                            <a class="header" id="userNamefeed2">Header</a>
+                            <div class="meta">
+                              <span>Description</span>
+                            </div>
+                            <div class="description">
+                              <p id="descfeed2"></p>
+                            </div>
+                            <div class="extra">
+                                    <p id="timefeed2"></p>
+                            </div>
+                          </div>
+                          <div class="image">
+                                <img src="" id ="img2feed">
+                          </div>
+                        </div>
+                        <!-- third loaded in feed item -->
+                        <div class="item">
+                          <div class="content">
+                            <a class="header" id="userNamefeed3">Header</a>
+                            <div class="meta">
+                              <span>Description</span>
+                            </div>
+                            <div class="description">
+                              <p id="descfeed3"></p>
+                            </div>
+                            <div class="extra">
+                                    <p id="timefeed3"></p>
+                            </div>
+                          </div>
+                          <div class="image">
+                                <img src="" id="im3feed">
+                          </div>
+                        </div>
+                        <!-- fourth loaded feed in item -->
+                        <div class="item">
+                                <div class="image">
+                                  <img src="" id="img4feed">
+                                </div>
+                                <div class="content">
+                                  <a class="header" id="userNamefeed4">Header</a>
+                                  <div class="meta">
+                                    <span>Description</span>
+                                  </div>
+                                  <div class="description">
+                                    <p id="descfeed4"></p>
+                                  </div>
+                                  <div class="extra">
+                                        <p id="timefeed4"></p>
+                                  </div>
+                                </div>
+                              </div>
+                        <!-- fifth loaded feed in item -->
+                        <div class="item">
+                                <div class="content">
+                                  <a class="header" id="userNamefeed5">Header</a>
+                                  <div class="meta">
+                                    <span>Description</span>
+                                  </div>
+                                  <div class="description">
+                                    <p id="descfeed5"></p>
+                                  </div>
+                                  <div class="extra">
+                                        <p id="timefeed5"></p>
+                                  </div>
+                                </div>
+                                <div class="image">
+                                        <img src="" id="img5feed">
+                                </div>
+                        </div>
+                        <!-- sixth loaded feed in item -->
+                        <div class="item">
+                                <div class="image">
+                                  <img src="" id="img6feed">
+                                </div>
+                                <div class="content">
+                                  <a class="header" id="userNamefeed6">Header</a>
+                                  <div class="meta">
+                                    <span>Description</span>
+                                  </div>
+                                  <div class="description">
+                                    <p id="descfeed6"></p>
+                                  </div>
+                                  <div class="extra">
+                                        <p id="timefeed6"></p>
+                                  </div>
+                                </div>
+                              </div>
+                        <!-- seventh loaded feed in item -->
+                        <div class="item">
+                                <div class="image">
+                                  <img src="" id="img7feed">
+                                </div>
+                                <div class="content">
+                                  <a class="header" id="userNamefeed7">Header</a>
+                                  <div class="meta">
+                                    <span>Description</span>
+                                  </div>
+                                  <div class="description">
+                                    <p id="descfeed7"></p>
+                                  </div>
+                                  <div class="extra">
+                                        <p id="timefeed7"></p>
+                                  </div>
+                                </div>
+                              </div>
+                      <!-- eight loaded feed in item -->
+                      <div class="item">
+                            <div class="content">
+                              <a class="header" id="userNamefeed8">Header</a>
+                              <div class="meta">
+                                <span>Description</span>
+                              </div>
+                              <div class="description">
+                                <p id="descfeed8"></p>
+                              </div>
+                              <div class="extra">
+                                    <p id="timefeed8"></p>
+                              </div>
+                            </div>
+                            <div class="image">
+                                    <img src="" id="img8feed">
+                                  </div>
+                          </div> 
+                <!-- nineth loaded feed in item -->
+                <div class="item">
+                        <div class="content">
+                          <a class="header" id="userNamefeed9">Header</a>
+                          <div class="meta">
+                            <span>Description</span>
+                          </div>
+                          <div class="description">
+                            <p id="descfeed9"></p>
+                          </div>
+                          <div class="extra">
+                                <p id="timefeed9"></p>
+                          </div>
+                        </div>
+                        <div class="image">
+                                <img src="" id="img9feed">
+                              </div>
+                      </div>
+                <!-- tenth loaded feed in item -->
+                <div class="item">
+                        <div class="image">
+                          <img src="" id="img10feed">
+                        </div>
+                        <div class="content">
+                          <a class="header" id="userNamefeed10">Header</a>
+                          <div class="meta">
+                            <span>Description</span>
+                          </div>
+                          <div class="description">
+                            <p id="descfeed10"></p>
+                          </div>
+                          <div class="extra">
+                                <p id="timefeed10"></p>
+                          </div>
+                        </div>
+                      </div>
         </div>
+        
     </div>
+
 </body>
 </html>

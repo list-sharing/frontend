@@ -18,8 +18,8 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "semantic-ui": "^2.4.2"
   },
   "description": ""

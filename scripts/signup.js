@@ -43,6 +43,7 @@ function submit(e, body){
     axios('/users/signup', 'post', body)
     .then(result => {
         $('.ui.modal').modal('hide')
+        document.querySelector('.modals').remove()
         document.querySelector('body').innerHTML += `
             <div class="ui alert">${result.data.message}. Please log in</div> 
         `
@@ -50,6 +51,7 @@ function submit(e, body){
         document.querySelector('.button').classList.add('disabled')
     })
     .catch(err => {
+        if(err)
         document.querySelector('body').innerHTML += `
             <div class="ui alert">${err.response.data.message}.</div> 
         `
