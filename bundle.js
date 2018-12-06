@@ -1864,14 +1864,20 @@ const {listItemTemplate} = require('./templates')
 const nav = require('./nav')
 
 function init(){
+   const search = window.location.search.slice(1).split('&')
+   .map(ele => ele.split('='))
+   .reduce((acc, ele) => ({...acc, [ele[0]]: ele[1]}),{})
+
+
+
     let userId
-    let listId
-    return nav.init()
-    .then(() => {
-        userId = document.querySelector('body').getAttribute('data-id')
-        listId = localStorage.getItem('lId')
-        // localStorage.removeItem('lId')
-        document.querySelector('header').setAttribute('data-id', listId)
+    let listId = search.listId
+    
+    nav.init()
+    
+    axios('/auth/token')
+    .then(response=> {
+        userId = response.data.id
         return axios(`/users/${userId}/lists/${listId}`)    
     })
     .then(result => {
@@ -1926,6 +1932,7 @@ function init(){
     axios('/lists')
     .then(result => loadNewsFeed(result.data.sort(timeStampCompare)))
 }
+
 
 
 const loadCards = (cardList, limit) => {
@@ -2050,6 +2057,7 @@ const loadNewsFeed = (lists) => {
 
 }
 
+
 module.exports = {init}
 },{"./utils":38}],32:[function(require,module,exports){
 const {axios} = require('./utils')
@@ -2117,7 +2125,7 @@ pageInit[path]()
 const {axios} = require('./utils')
 
 function init(){
-   return axios('/auth/token')
+    axios('/auth/token')
         .then(result => {
             const id = result.data.id
             localStorage.setItem('uId', id)
@@ -2132,6 +2140,19 @@ function init(){
             if(err.reponse) console.error(err.response.data)
             if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
+
+    axios('/lists')
+    .then((result)=>{
+        var content =[]
+        for(let i = 0;i<result.data.length;i++){
+            content.push({title: result.data[i].list_name,description:result.data[i].desc,url:`/listPage/listPage.html?listId=${result.data[i].id}`})
+        }
+        $('.ui.search')
+    .search({
+        source: content,
+        searchFullText: false
+    });
+    })
 }
 
 function signout(){

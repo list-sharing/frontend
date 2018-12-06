@@ -1,7 +1,7 @@
 const {axios} = require('./utils')
 
 function init(){
-   return axios('/auth/token')
+    axios('/auth/token')
         .then(result => {
             const id = result.data.id
             localStorage.setItem('uId', id)
@@ -16,6 +16,19 @@ function init(){
             if(err.reponse) console.error(err.response.data)
             if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
+
+    axios('/lists')
+    .then((result)=>{
+        var content =[]
+        for(let i = 0;i<result.data.length;i++){
+            content.push({title: result.data[i].list_name,description:result.data[i].desc,url:`/listPage/listPage.html?listId=${result.data[i].id}`})
+        }
+        $('.ui.search')
+    .search({
+        source: content,
+        searchFullText: false
+    });
+    })
 }
 
 function signout(){

@@ -12,6 +12,7 @@ function init(){
 }
 
 
+
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
@@ -133,5 +134,6 @@ const loadNewsFeed = (lists) => {
     }
 
 }
+
 
 module.exports = {init}
