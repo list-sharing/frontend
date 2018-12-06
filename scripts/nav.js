@@ -10,13 +10,13 @@ function init(){
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
             document.querySelector('body').setAttribute('data-id', result.data[0].id)
-            // document.querySelector('.viewFollowersDiv i').addEventListener('click', viewFollowers)
-            // document.querySelector('.addListDev i').addEventListener('click', viewYourLists)
+            document.querySelector('.viewFollowersDiv i').addEventListener('click', viewFollowers)
+            document.querySelector('.addListDiv i').addEventListener('click', viewYourLists)
             document.querySelector('.signoutDiv i').addEventListener('click', signout)
         })
         .catch(err => {
             if(err.reponse) console.error(err.response.data)
-            if (querySelectorwindow.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
+            if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') return signout()
         })
 }
 
@@ -28,6 +28,13 @@ function signout(){
     window.location.pathname = '/'
 }
 
+function viewFollowers () {
+    window.location.pathname = "./friendsPage/followers.html"
+}
+
+function viewYourLists () {
+    window.location.pathname = "./listPage/listPage.html"
+}
 
 
 module.exports = {init}
