@@ -210,6 +210,15 @@ input[type="file"]{
     border-top:none;
 }
 
-/******************************************************************************
-**  list page 
-******************************************************************************/
+.cardImage {
+    width: 100%;
+    height: 10em;
+    background-size: 100% 100%;
+}
+
+#feedImage {
+    width: 7em;
+    height: 7em;
+    background-size: 100% 100%;
+}
+
