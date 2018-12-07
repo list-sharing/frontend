@@ -1,20 +1,22 @@
 const {axios} = require('./utils')
 const {listItemTemplate, editableItemTemplate} = require('./templates')
-const nav = require('./nav')
 
 function init(){
-    let userId
-    let listId
-    let isSelf = false
-    return nav.init()
-    .then(() => {
-        userId = document.querySelector('body').getAttribute('data-id')
-        listId = localStorage.getItem('lId')
-        document.querySelector('header').setAttribute('data-id', listId)
-        return axios(`/users/${userId}/lists/${listId}`)    
-    })
+    let userId = localstorage.getItem('uId')
+    let listId = localStorage.getItem('lId')
+    let isCopied = false
+    let isOwner = false
+    document.querySelector('header').setAttribute('data-id', listId)
+
+    return axios(`/users/${userId}/lists/${listId}`)    
     .then(result => {
-        if (result.data[0].user_id == userId) isSelf = true
+        for(let i = 0; i < result.data.length; i++) {
+            if(result.data[i].is_owner === true && result.data[i].user_id == userId) {
+                isOwner = true
+                break;
+            }
+            if(result.data[i].user_id == userId) isCopied = true
+        }
         if (result.data[0].user_id) addListInfo(result.data[0])
         return axios(`/users/${userId}/lists/${listId}/items`)
     })
@@ -22,7 +24,7 @@ function init(){
         const cardHTML = []
         result.data.forEach(item => cardHTML.push(listItemTemplate(item)))
         document.querySelector('.cardHolder').innerHTML = cardHTML.join('')
-        userPrivs()
+        userPrivs(isCopied, isOwner)
     })
     .catch(err => console.log(err))
 }
@@ -34,11 +36,25 @@ function addListInfo(list) {
     document.querySelector('title').textContent = list.list_name
 }
 
-function userPrivs(){
-    document.querySelector('main').innerHTML += '<div id="addItem" class="ui fluid card"><i class="circle plus icon"></i></i></div>'
-    document.querySelector('body').innerHTML += '<div class="editBtn"><i class="pencil icon"></i></div>'
-    document.querySelector('.editBtn').addEventListener('click', editList)
-    document.querySelector('#addItem').addEventListener('click', addItem) 
+function userPrivs(copiedBool, ownBool){
+    if(!copiedBool && !ownBool) {
+        document.querySelector('main').innerHTML += '<div id="takeList" class="ui fluid card"><i class="copy icon"></i></i></div>'
+        document.getElementById('takeList').addEventListener('click', takeList)
+    }
+    if(ownBool) {
+        document.querySelector('main').innerHTML += '<div id="addItem" class="ui fluid card"><i class="circle plus icon"></i></i></div>'
+        document.querySelector('body').innerHTML += '<div class="editBtn"><i class="pencil icon"></i></div>'
+        document.querySelector('.editBtn').addEventListener('click', editList)
+        document.querySelector('#addItem').addEventListener('click', addItem) 
+    }
+}
+
+function takeList(){
+    const lId = document.querySelector('header').getAttribute('data-id')
+    const userId = localStorage.getItem('uId')
+
+    axios(`/users/${userId}/lists/`, 'put')
+    
 }
 
 function editList(){
