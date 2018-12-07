@@ -1,5 +1,5 @@
 const {axios} = require('./utils')
-
+const baseURL = 'http://127.0.0.1:8080'
 function init(){
    return axios('/auth/token')
         .then(result => {
@@ -9,6 +9,10 @@ function init(){
         })
         .then((result) => {
             document.querySelector('.welcome').textContent += ` ${result.data[0].first_name}!`
+            document.querySelector('.welcome').onclick = function(){
+                window.location.pathname = `/profilePage/profile.html`
+                console.log(result.data[0].id)
+            }
             document.querySelector('body').setAttribute('data-id', result.data[0].id)
             document.querySelector('.viewFollowersDiv i').addEventListener('click', viewFollowers)
             document.querySelector('.addListDiv i').addEventListener('click', viewYourLists)
