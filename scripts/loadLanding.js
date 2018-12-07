@@ -118,11 +118,9 @@ const loadNewsFeed = (lists) => {
                     </div>
                 </div>`
         }
-        console.log(feed)
 
         feed.addEventListener('click', (e) => {
             e.preventDefault()
-            console.log('Clicked!')
             window.location.pathname = `http://127.0.0.1:8080/listPage/listPage.html?listId=${lists[i].id}&userId=${lists[i].user_id}`
         })
     }
