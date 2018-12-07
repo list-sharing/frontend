@@ -3,19 +3,20 @@ const {listItemTemplate, editableItemTemplate} = require('./templates')
 const nav = require('./nav')
 
 function init(){
-    const search = window.location.search.slice(1).split('&')
-    .map(ele => ele.split('='))
-    .reduce((acc, ele) => ({...acc, [ele[0]]: ele[1]}),{}) 
+   const search = window.location.search.slice(1).split('&')
+   .map(ele => ele.split('='))
+   .reduce((acc, ele) => ({...acc, [ele[0]]: ele[1]}),{})
+
+
 
     let userId
-    let listId  = search.listId
-    console.log(listId)
-    let isSelf = false
+    let listId = search.listId
+    
     nav.init()
-
+    
     axios('/auth/token')
-    .then((response) => {
-       userId =response.data.id
+    .then(response=> {
+        userId = response.data.id
         return axios(`/users/${userId}/lists/${listId}`)    
     })
     .then(result => {
