@@ -80,7 +80,7 @@ body{
     border:1px solid #aaa !important;
 }
 
-.image img{
+#index .image img{
     height:30px !important; 
     width:30px !important;
 }
@@ -363,11 +363,16 @@ input[type="file"]{
 }
 
 #newsFeed .item{
-    border: 1px solid black;
     padding:10px;
+    max-width:70%; margin:0 auto;
+}
+
+#newsFeed{
+    max-height:100vh;
+    overflow-y:scroll;
+
 }
 #newsFeed .content .header{
-    outline:1px solid blue;
     margin-top:15px !important;
 }
 
