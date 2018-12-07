@@ -5,7 +5,7 @@ const listOperations = require('./listOperations')
 const nav = require('./nav')
 const listPage =  require('./listPage')
 const followers = require('./followers')
-const path = window.location.pathname
+const [path,query] = window.location.pathname.split('?')
 
 
 const pageInit = {
@@ -17,6 +17,7 @@ const pageInit = {
     '/listPage/listPage.html': listPage.init,
     '/friendsPage/followers.html': followers.init
 }
+
 
 nav.init()
 pageInit[path]()
