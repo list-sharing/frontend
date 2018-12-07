@@ -1,5 +1,5 @@
 const {axios} = require('./utils')
-const baseURL = 'http://127.0.0.1:8080'
+
 function init(){
     axios('/auth/token')
         .then(result => {

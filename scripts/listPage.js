@@ -76,7 +76,7 @@ function takeList(){
 function editList(){
     const lId = document.querySelector('header').getAttribute('data-id')
     // localStorage.setItem('edit', lId)
-    window.location.pathname = `/listOperations/listOperations.html?listId=${lId}`
+    window.location.pathname = `/listOperations/listOperations.html?listId=${lId}&edit=true`
 }
 
 function addItem(){

@@ -3,7 +3,12 @@ const {editableItemTemplate} = require('./templates')
 const edit = require('./edit')
 
 function init(){
-    if(localStorage.getItem('edit')) return edit.init()
+    console.log('x')
+    const search = window.location.search.slice(1).split('&')
+        .map(ele => ele.split('='))
+        .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
+    console.log(search)
+    if(search.edit === 'true') return edit.init()
     document.addEventListener('keyup', checkInputs)
     document.addEventListener('keyup', activateBtn)
     addManyListenersToOne('#listContainer', ['click', 'keyup'], checkImg)
