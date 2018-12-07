@@ -1,7 +1,7 @@
 const {axios} = require('./utils')
 
 function init(){
-axios('/auth/token')
+        axios('/auth/token')
         .then(result => {
             const id = result.data.id
             localStorage.setItem('uId', id)

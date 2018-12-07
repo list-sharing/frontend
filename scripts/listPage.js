@@ -9,11 +9,12 @@ function init(){
 
     let userId
     let listId  = search.listId
+    console.log(listId)
     let isSelf = false
     nav.init()
 
     axios('/auth/token')
-    .then(() => {
+    .then((response) => {
        userId =response.data.id
         return axios(`/users/${userId}/lists/${listId}`)    
     })
