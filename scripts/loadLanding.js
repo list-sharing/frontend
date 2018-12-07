@@ -120,7 +120,7 @@ const loadNewsFeed = (lists) => {
 
         feed.addEventListener('click', (e) => {
             e.preventDefault()
-            window.location.pathname = `http://127.0.0.1:8080/listPage/listPage.html?listId=${lists[i].id}&userId=${lists[i].user_id}`
+            document.location.href = `/listPage/listPage.html?listId=${lists[i].id}`
         })
     }
 
