@@ -4,11 +4,9 @@ const {editableItemTemplate} = require('./templates')
 const listOperations = require('./listOperations')
 
 function init(){
-    console.log('x')
     const search = window.location.search.slice(1).split('&')
         .map(ele => ele.split('='))
         .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
-    console.log(search)
     //Need to add validation to prevent editing something you don't own
     // if(!isOwner || user_id === uId) return listOperations.init()
     const userId = localStorage.getItem('uId')
@@ -18,7 +16,6 @@ function init(){
 }
 
 function fillForm(userId, listId){
-    console.log('hitting fill form', userId, listId)
     return axios(`/users/${userId}/lists/${listId}/items`)
     .then(results => {
         addItemInfo(results.data)

@@ -7,11 +7,8 @@ function init(){
    .map(ele => ele.split('='))
    .reduce((acc, ele) => ({...acc, [ele[0]]: ele[1]}),{})
 
-
-
     let userId
     let listId = search.listId
-    
     
     axios('/auth/token')
     .then(response=> {
@@ -21,8 +18,6 @@ function init(){
     let isCopied = false
     let isOwner = false
     document.querySelector('header').setAttribute('data-id', listId)
-
-    // nav.init()
 
     axios(`/users/${userId}/lists/${listId}`)    
     .then(result => {
@@ -75,7 +70,6 @@ function takeList(){
 
 function editList(){
     const lId = document.querySelector('header').getAttribute('data-id')
-    // localStorage.setItem('edit', lId)
     window.location.pathname = `/listOperations/listOperations.html?listId=${lId}&edit=true`
 }
 
@@ -135,7 +129,6 @@ function submit(e){
     })
     .catch(err =>{
         if(err.response) console.error(err.response.data)
-        else console.log('something broke')
     })
 }
 

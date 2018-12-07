@@ -8,7 +8,6 @@ function init(){
         .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
     let id = search.userId
     if(!id) id = localStorage.getItem('uId')
-    console.log(id)
     return getUser(id)
     .then( () => {
         $('.ui.accordion').accordion();
@@ -25,7 +24,6 @@ function getUser(id){
         const listHTML = []
         result.data.forEach(list => listHTML.push(cardTemplate(list)))
         document.querySelector('.cardHolder').innerHTML = listHTML.join('')
-        // addLinksToCards()
     })
     .then( () => {
         addListenersToMany('.ui.accordion', 'click', function(e){getListItems(e)})
@@ -99,12 +97,10 @@ function submit(e) {
     body.first_name = input[0].value
     body.last_name = input[1].value
     body.img = input[2].value
-    body.bio = document.querySelector('textarea').value
-    console.log(body)    
+    body.bio = document.querySelector('textarea').value   
 
     return axios(`/users/${userId}`, 'put', body)
         .then(result => {
-            console.log(result)
             window.location.reload()
         })
 }
