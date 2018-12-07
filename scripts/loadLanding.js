@@ -9,9 +9,7 @@ function init(){
 
     axios('/lists')
     .then(result => {
-        console.log(result.data)
         let sortedData = result.data.sort(timeStampCompare)
-        console.log(sortedData)
         loadNewsFeed(sortedData)})
 }
 

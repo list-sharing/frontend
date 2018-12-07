@@ -62,6 +62,31 @@
 main{
     margin-bottom:50px;
 }
+body{
+    background: radial-gradient(ellipse at bottom, #efefef, #dededd) !important;
+    } 
+    
+#index{
+    background-image: url('img/hero.jpg') !important;
+    background-size:100%;
+    background-repeat:no-repeat;
+    background-color:red;
+}
+.image.header{
+    background-color:#eee !important;
+    width:100%;
+    border-radius:5px;
+    padding:10px 0 !important;
+}
+
+.image img{
+    height:30px !important; 
+    width:30px !important;
+}
+
+.image .content{
+    color:#71BBD0;
+}
 /******************************************************************************
 **  profile
 ******************************************************************************/
@@ -206,7 +231,10 @@ nav .search{
     margin: 0 auto !important;
 }
 
-
+.welcome:hover{
+    text-decoration:underline;
+    cursor:pointer;
+}
 /******************************************************************************
 **  list page
 ******************************************************************************/

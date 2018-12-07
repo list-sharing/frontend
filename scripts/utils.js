@@ -6,7 +6,7 @@ function axios(url, method = 'get', body = null){
     
     if(token) bearerToken = `Bearer ${token}`
 
-    return axiosMod('http://localhost:3000' + url, {
+    return axiosMod('https://list-in.herokuapp.com' + url, {
         method: method,
         headers: { Authorization: bearerToken },
         data:body
