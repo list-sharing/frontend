@@ -18,6 +18,7 @@ function init(){
 
 
 const loadCards = (cardList, limit) => {
+    
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
         <h3 style="display:flex; justify-content: center; font-size: 2em;">There's nothing here.</h3>`
@@ -49,10 +50,9 @@ const loadCards = (cardList, limit) => {
                     </div>
                 </div>
             </div>`
-        card.addEventListener('click', (e) => {
-            e.preventDefault()
 
-            window.location.pathname = `http://127.0.0.1:8080/listPage/listPage.html?listId=${cardList[i].id}`
+        card.addEventListener('click', () => {
+            window.location.pathname = `/listPage/listPage.html?listId=${cardList[i].id}`
         })
     }
 }

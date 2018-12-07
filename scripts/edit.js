@@ -3,6 +3,11 @@ const {axios, addManyListenersToOne} = require('./utils')
 const {editableItemTemplate} = require('./templates')
 
 function init(){
+    console.log('x')
+    const search = window.location.search.slice(1).split('&')
+        .map(ele => ele.split('='))
+        .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
+    console.log(search)
     const listId = localStorage.getItem('edit')
     if(!listId) return listOperations.init()
     const userId = localStorage.getItem('uId')
@@ -47,7 +52,6 @@ function prepButtons(){
 }
 
 function cancel(){
-    localStorage.removeItem('edit')
     window.location.pathname = '/listPage/listPage.html'
 }
 
@@ -68,7 +72,6 @@ function submit(e){
         return Promise.all(promiseArray)
     })
     .then(() => {
-        localStorage.removeItem('edit')
         window.location.pathname = '/listPage/listPage.html'
     })
 
