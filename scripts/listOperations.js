@@ -80,7 +80,7 @@ function submit(e){
         }
         Promise.all(promiseArray)
         .then(results =>{
-            window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
+            document.location.href = '/signedInLandingPage/signedInLandingPage.html'
         })
     })
     .catch(err => console.error(err.response.data))

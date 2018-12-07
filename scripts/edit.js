@@ -52,7 +52,7 @@ function prepButtons(){
 }
 
 function cancel(){
-    window.location.pathname = '/listPage/listPage.html'
+    document.location.href = '/listPage/listPage.html'
 }
 
 function submit(e){
@@ -72,7 +72,7 @@ function submit(e){
         return Promise.all(promiseArray)
     })
     .then(() => {
-        window.location.pathname = '/listPage/listPage.html'
+        document.location.href = '/listPage/listPage.html'
     })
 
 }

@@ -20,7 +20,7 @@ function tryLogin(){
     axios('/auth/login', 'post', body)
     .then(result => {
         localStorage.setItem('token', result.data.token)
-        window.location.pathname = '/signedInLandingPage/signedInLandingPage.html'
+        document.location.href = '/signedInLandingPage/signedInLandingPage.html'
     })
     .catch(err => {
         console.error(err.response.data)

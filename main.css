@@ -366,7 +366,7 @@ input[type="file"]{
     border: 1px solid black;
     padding:10px;
 }
-.content .header{
+#newsFeed .content .header{
     outline:1px solid blue;
     margin-top:15px !important;
 }

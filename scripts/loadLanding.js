@@ -50,7 +50,7 @@ const loadCards = (cardList, limit) => {
             </div>`
 
         card.addEventListener('click', () => {
-            window.location.pathname = `/listPage/listPage.html?listId=${cardList[i].id}`
+            document.location.href = `/listPage/listPage.html?listId=${cardList[i].id}`
         })
     }
 }
