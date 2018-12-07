@@ -68,8 +68,8 @@ body{
     
 #index{
     background-image: url('img/hero.jpg') !important;
-    background-size:100%;
-    background-repeat:no-repeat;
+    background-size:cover !important;
+    background-repeat:no-repeat !important;
     background-color:red;
 }
 .image.header{
