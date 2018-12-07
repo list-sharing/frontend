@@ -1,0 +1,18 @@
+Start					Stop							Continue
+Have a more in-depth Sprint		Do not use the master branch for commits		Use Branches
+
+Stick closely to user stories		Working by yourself					Communication/Regular meetings
+
+Start from and follow the user-		Being resistant to asking for help			Being proactive about user stories
+experience through development
+					Reducing the use of the trello board			Writing strong commit messages
+
+Playing to group member strengths	Expanding features before core is stable		Using wireframes and other guiding tools
+
+Doing more pair programming
+
+git ignoring bundle.js
+
+Review code and process before implementing a feature
+
+Developing more clear goals and jumping in points (unified vision)
