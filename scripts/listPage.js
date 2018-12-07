@@ -22,7 +22,7 @@ function init(){
     let isOwner = false
     document.querySelector('header').setAttribute('data-id', listId)
 
-    nav.init()
+    // nav.init()
 
     axios(`/users/${userId}/lists/${listId}`)    
     .then(result => {
@@ -75,8 +75,8 @@ function takeList(){
 
 function editList(){
     const lId = document.querySelector('header').getAttribute('data-id')
-    localStorage.setItem('edit', lId)
-    window.location.pathname = '/listOperations/listOperations.html'
+    // localStorage.setItem('edit', lId)
+    window.location.pathname = `/listOperations/listOperations.html?listId=${lId}`
 }
 
 function addItem(){

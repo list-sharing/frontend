@@ -8,7 +8,7 @@ function init(){
         .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
     let id = search.userId
     if(!id) id = localStorage.getItem('uId')
-
+    console.log(id)
     return getUser(id)
     .then( () => {
         $('.ui.accordion').accordion();
@@ -25,6 +25,7 @@ function getUser(id){
         const listHTML = []
         result.data.forEach(list => listHTML.push(cardTemplate(list)))
         document.querySelector('.cardHolder').innerHTML = listHTML.join('')
+        // addLinksToCards()
     })
     .then( () => {
         addListenersToMany('.ui.accordion', 'click', function(e){getListItems(e)})
@@ -39,6 +40,14 @@ function createHeader(data){
     document.querySelector('.profPic').style.backgroundImage = `url("${data.img}")`
     document.querySelector('.name').textContent = `${data.first_name} ${data.last_name}`
     document.querySelector('.profContent').textContent = data.bio
+}
+
+function addLinksToCards(){
+    const cards = document.querySelectorAll('.card')
+    cards.forEach(card => {
+        const id = card.getAttribute('data-id')
+        card.onclick = function(){window.location.pathname = `/listPage/listPage.html?listId=${id}`}
+    })
 }
 
 function getListItems(e){

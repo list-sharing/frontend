@@ -6,6 +6,8 @@ const cardUrls = [
     'http://2.bp.blogspot.com/-8mhU0rT05H8/UoN6q3-_ScI/AAAAAAAAGqU/bqV3LiJiObs/s400/Beautiful-Fish-Wallpapers-For-Desktop.jpg'
 
 ]
+
+const baseURL = 'http://localhost:3000'
 function cardTemplate(list){
     if(!list.img) list.img = cardUrls[Math.floor(Math.random() * 5)]
     return `
@@ -30,6 +32,7 @@ function cardTemplate(list){
         </div>
 
     </div>`
+
 }
 
 function listItemTemplate(item){
