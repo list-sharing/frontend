@@ -51,7 +51,7 @@ const loadCards = (cardList, limit) => {
         card.addEventListener('click', (e) => {
             e.preventDefault()
 
-            //add link to list page here
+            window.location.pathname = `http://127.0.0.1:8080/listPage/listPage.html?listId=${cardList[i].id}`
         })
     }
 }
