@@ -15,7 +15,6 @@ function init(){
         loadNewsFeed(sortedData)})
 }
 
-
 const loadCards = (cardList, limit) => {
     if(cardList === undefined) {
         document.getElementById('cardColumnContainer').innerHTML = `
