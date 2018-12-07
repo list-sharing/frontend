@@ -3,11 +3,13 @@ const nav = require('./nav')
 const {cardTemplate, profileForm} = require('./templates')
 
 function init(){
-    let otherUserId = localStorage.getItem('otherUserId')
-    let triggerId = otherUserId || uId
-    nav.init()
+    const search = window.location.search.slice(1).split('&')
+        .map(ele => ele.split('='))
+        .reduce((acc, ele) => ({ ...acc, [ele[0]]: ele[1] }), {})
+    let id = search.userId
+    if(!id) id = localStorage.getItem('uId')
 
-    return getUser(triggerId)
+    return getUser(id)
     .then( () => {
         $('.ui.accordion').accordion();
     })
