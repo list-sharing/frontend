@@ -4,5 +4,7 @@ While using List-In, you will see a feed on the right side of your home page. Th
 
 No installation of any kind necessary. Just sign-up/login and enjoy!
 
+Here is a link to our backend repository: https://github.com/list-sharing/backend
+
 
 ![Alt text](https://github.com/list-sharing/frontend/blob/master/listInScreenshot.png "Screenshot")
