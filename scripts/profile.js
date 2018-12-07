@@ -44,7 +44,7 @@ function addLinksToCards(){
     const cards = document.querySelectorAll('.card')
     cards.forEach(card => {
         const id = card.getAttribute('data-id')
-        card.onclick = function(){window.location.pathname = `/listPage/listPage.html?listId=${id}`}
+        card.onclick = function () { document.location.href = `/listPage/listPage.html?listId=${id}`}
     })
 }
 

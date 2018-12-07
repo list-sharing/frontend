@@ -70,7 +70,7 @@ function takeList(){
 
 function editList(){
     const lId = document.querySelector('header').getAttribute('data-id')
-    window.location.pathname = `/listOperations/listOperations.html?listId=${lId}&edit=true`
+    document.location.href = `/listOperations/listOperations.html?listId=${lId}&edit=true`
 }
 
 function addItem(){
