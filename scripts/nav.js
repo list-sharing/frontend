@@ -17,18 +17,21 @@ function init(){
             document.querySelector('.addListDiv i').addEventListener('click', viewYourLists)
             document.querySelector('.signoutDiv i').addEventListener('click', signout)
         })
-        axios('/lists')
-        .then((result)=>{
-            var content =[]
-            for(let i = 0;i<result.data.length;i++){
-                content.push({title: result.data[i].list_name,description:result.data[i].desc,url:`/listPage/listPage.html?listId=${result.data[i].id}`})
-            }
-            $('.ui.search')
-        .search({
-            source: content,
-            searchFullText: false
-        });
-        })  
+
+        // repeated code
+        // axios('/lists')
+        // .then((result)=>{
+        //     var content =[]
+        //     for(let i = 0;i<result.data.length;i++){
+        //         content.push({title: result.data[i].list_name,description:result.data[i].desc,url:`/listPage/listPage.html?listId=${result.data[i].id}`})
+        //     }
+        //     $('.ui.search')
+        // .search({
+        //     source: content,
+        //     searchFullText: false
+        // });
+        // })  
+        
         axios('/lists')
         .then((result)=>{
             var content =[]
